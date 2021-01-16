@@ -1,0 +1,119 @@
+export const tmpData1 = [{
+        FYYT: "住宅",
+        ZAZFY: 3625,
+        ZAZMJ: 344809.45,
+        YAZFY: 117,
+        YAZMJ: 14882.62,
+        SYFY: 3508,
+        SYMJ: 329926.83
+    },
+    {
+        FYYT: "商业用房",
+        ZAZFY: 556,
+        ZAZMJ: 118894.58,
+        YAZFY: 13,
+        YAZMJ: 291.07,
+        SYFY: 543,
+        SYMJ: 118603.51
+    },
+    {
+        FYYT: "办公用房",
+        ZAZFY: 6,
+        ZAZMJ: 6215.38,
+        YAZFY: 0,
+        YAZMJ: 0.00,
+        SYFY: 6,
+        SYMJ: 6215.38
+    },
+    {
+        FYYT: "其他",
+        ZAZFY: 83,
+        ZAZMJ: 10480.31,
+        YAZFY: 0,
+        YAZMJ: 0.00,
+        SYFY: 83,
+        SYMJ: 10480.31
+    }
+]
+
+export const tmpData2 = [{
+    SSJD: "七都街道",
+    XQZS: 2,
+    ZZTS: 58,
+    KZZZTS: 58,
+    SYJS: 0,
+    KZSYJS: 0,
+    KZBGJS: 0
+}, {
+    SSJD: "南汇街道",
+    XQZS: 2,
+    ZZTS: 81,
+    KZZZTS: 81,
+    SYJS: 17,
+    KZSYJS: 17,
+    KZBGJS: 0
+}, {
+    SSJD: "蒲鞋市街道",
+    XQZS: 0,
+    ZZTS: 0,
+    KZZZTS: 0,
+    SYJS: 0,
+    KZSYJS: 0,
+    KZBGJS: 0
+}, {
+    SSJD: "南郊街道",
+    XQZS: 9,
+    ZZTS: 285,
+    KZZZTS: 246,
+    SYJS: 32,
+    KZSYJS: 19,
+    KZBGJS: 0
+}, {
+    SSJD: "大南街道",
+    XQZS: 1,
+    ZZTS: 73,
+    KZZZTS: 73,
+    SYJS: 0,
+    KZSYJS: 0,
+    KZBGJS: 0
+}, {
+    SSJD: "五马街道",
+    XQZS: 13,
+    ZZTS: 275,
+    KZZZTS: 275,
+    SYJS: 41,
+    KZSYJS: 41,
+    KZBGJS: 0
+}, {
+    SSJD: "松台街道",
+    XQZS: 1,
+    ZZTS: 29,
+    KZZZTS: 29,
+    SYJS: 9,
+    KZSYJS: 9,
+    KZBGJS: 0
+}, {
+    SSJD: "广化街道",
+    XQZS: 0,
+    ZZTS: 0,
+    KZZZTS: 0,
+    SYJS: 0,
+    KZSYJS: 0,
+    KZBGJS: 0
+}, {
+    SSJD: "双屿街道",
+    XQZS: 22,
+    ZZTS: 297,
+    KZZZTS: 297,
+    SYJS: 48,
+    KZSYJS: 48,
+    KZBGJS: 2
+}, {
+    SSJD: "丰门街道",
+    XQZS: 5,
+    ZZTS: 11,
+    KZZZTS: 11,
+    SYJS: 139,
+    KZSYJS: 139,
+    KZBGJS: 1
+}, ]
