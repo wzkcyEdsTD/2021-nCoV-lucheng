@@ -59,10 +59,13 @@ export default {
   data() {
     return {
       toptab: [
-        // { label: "宏观管控", route: "control" },
-        { label: "2020疫情布控", route: "macroscopic" },
-        { label: "做地出让", route: "monitor" },
-        { label: "2021疫情布控", route: "macroscopic2021" },
+        { label: "2020疫情布控", route: "macroscopic", path: "/" },
+        { label: "做地出让", route: "monitor", path: "/monitor" },
+        {
+          label: "2021疫情布控",
+          route: "macroscopic2021",
+          path: "/macroscopic2021",
+        },
       ],
       titleHash: {
         0: "鹿城区新冠肺炎防控指挥地图",
@@ -74,7 +77,6 @@ export default {
       showHeader: true, // 显示头部
       au_username: window.user.au_username,
       showPassport: false,
-      countryName: "",
       menuFlag: true,
     };
   },
@@ -86,18 +88,28 @@ export default {
       this.getTime();
     }, 1000);
   },
+
+  watch: {
+    $route(n, o) {
+      this.toptab.map((item, index) => {
+        if (item.path == n.path) {
+          this.current = index;
+        }
+      });
+    },
+  },
+
   methods: {
     setLoation() {
-      const { name } = this.$router.history.current;
+      const path = this.$router.history.current.fullPath;
       this.toptab.map((item, index) => {
-        if (item.route === name) {
-          // console.log(this.countryName);
-          this.current = this.countryName != "" ? 2 : index;
+        if (item.path == path) {
+          this.current = index;
         }
       });
     },
     selected(index) {
-      this.current = this.countryName != "" ? 2 : index;
+      this.current = index;
     },
     //获取当前时间
     getTime() {

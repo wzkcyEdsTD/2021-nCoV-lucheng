@@ -53,7 +53,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.getItem(leftOptions[0].children[0], leftOptions[0].label);
+    // this.getItem(leftOptions[0].children[0], leftOptions[0].label);
   },
   components: {},
   methods: {

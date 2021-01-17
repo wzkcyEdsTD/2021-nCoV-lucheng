@@ -9,7 +9,7 @@ export const leftOptions = [{
     label: "全国疫情分布",
     check: false,
     show: false,
-    children: [{
+    /* children: [{
         name: `省`,
         // id: "qzbl",
         // url: "http://172.20.89.7:6082/arcgis/rest/services/lucheng/fangkong/MapServer",
@@ -23,52 +23,62 @@ export const leftOptions = [{
         // sublayers: "0",
         // icon: "确诊病例",
         check: false
-    }]
+    }] */
 }, {
     label: "鹿城区疫情分布",
     check: false,
     show: true,
     children: [{
-        name: `隔离点 (115处)`,
+        name: `隔离点 (44处)`,
         id: "isolatedPoint",
-        ytname: -1,
-        url: "http://172.20.89.7:6082/arcgis/rest/services/lucheng/paiban/MapServer",
-        sublayers: "11",
-        icon: "康复隔离点",
+        url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/GeiLiDianLuCheng/MapServer",
+        sublayers: "1",
+        icon: "隔离点（黄）",
+        icon2: "隔离点（绿）",
+        isLegend: true,
         check: false
     }, {
-        name: `核酸检测点 (237处)`,
+        name: `核酸采样点 (390处)`,
         id: "detection",
-        ytname: -1,
-        url: "http://172.20.89.7:6082/arcgis/rest/services/lucheng/paiban/MapServer",
-        sublayers: "11",
-        icon: "康复隔离点",
+        url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/GeiLiDianLuCheng/MapServer",
+        sublayers: "0",
+        icon: "核酸检测点",
+        isLegend: true,
         check: false
     }]
 }, {
     label: "网格管理",
     check: false,
-    show: false,
+    show: true,
     children: [{
         name: "街道",
-        id: "chanyePlate",
-        sublayers: "0",
+        id: "street",
         isImg: true,
-        url: "http://172.20.89.7:6082/arcgis/rest/services/lucheng/xzjd_ws/MapServer",
+        isLegend: false,
+        url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/cs_grid/MapServer",
+        sublayers: "0",
         check: true
     }, {
-        name: "社区网格",
-        id: "wg",
-        sublayers: "12",
-        url: "http://172.20.89.7:6082/arcgis/rest/services/lucheng/fangkong/MapServer",
-        isImg: true,
+        name: "社区",
+        id: "community",
+        isLegend: false,
+        url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/cs_grid/MapServer",
+        sublayers: "1",
+        check: false
+    }, {
+        name: "网格",
+        id: "grid",
+        isLegend: false,
+        url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/cs_grid/MapServer",
+        sublayers: "2",
         check: false
     }, {
         name: "小区、大厦",
-        id: "xq",
-        sublayers: "14",
-        // isImg: true,
+        id: "building",
+        isImg: true,
+        isLegend: false,
         url: "http://172.20.89.7:6082/arcgis/rest/services/lucheng/fangkong/MapServer",
+        sublayers: "14",
         check: false
     }]
 }]

@@ -1,18 +1,37 @@
 <template>
   <div class="Com_content Macroscopic">
-    <div class="toptab_time">
-      <p>截至日期：2021年1月1日24时</p>
+    <div class="toptab_time" v-show="!nationwideShow">
+      <p>截至日期：2021年1月16日24时</p>
     </div>
     <div class="Com_map">
-      <commonArcgis id="macroArcgis" ref="macroArcgis" :leftOptions="leftOptions" />
+      <commonArcgis
+        id="macroArcgis"
+        ref="macroArcgis"
+        :leftOptions="leftOptions"
+      />
+    </div>
+    <div class="nationwide" v-show="nationwideShow">
+      <iframe src="http://www.lubulai.com/" frameborder="0"></iframe>
     </div>
     <div class="Com_container">
-      <div :class="`leftside animated ${icon_show_left?`slideOutLeft`:`slideInLeft`}`">
+      <div
+        :class="`leftside animated ${
+          icon_show_left ? `slideOutLeft` : `slideInLeft`
+        }`"
+      >
         <leftMultiSelect :leftOptions="leftOptions" ref="leftOptions" />
         <span @click="toggle(), legend()" class="hidden_button"></span>
       </div>
-      <div :class="`rightside animated ${icon_show_right?`slideOutRight`:`slideInRight`}`">
+      <div
+        :class="`rightside animated ${
+          icon_show_right ? `slideOutRight` : `slideInRight`
+        }`"
+      >
         <div id="rightFrame">
+          <chart1 v-show="!nationwideShow" />
+          <chart2 v-show="!nationwideShow" />
+          <chart3 v-show="!nationwideShow" />
+          <nationwideChart />
           <!-- <bqtj ref="bqtj" />
           <bqtj2 ref="bqtj2" />
           <sbDate ref="table" /> -->
@@ -25,22 +44,29 @@
     <bottomBtn />
 
     <sbxq ref="sbxq" v-show="xqShow" />
-    
+
     <xqjck ref="xqjck" v-show="xqjckShow" />
-    <mjChart ref="mjChart" :style="{left:moveLeft + 'px'}" />
-    <streetFrame ref="cpFrame" :style="{left:moveLeft + 'px'}" />
+    <mjChart ref="mjChart" :style="{ left: moveLeft + 'px' }" />
+    <streetFrame ref="cpFrame" :style="{ left: moveLeft + 'px' }" />
     <listxq ref="listxq" v-show="listShow" />
-    <queryForm ref="queryForm" :style="{left:moveLeft + 'px'}" />
-    <qzTable ref="qzTable" :style="{left:(Number(moveLeft) + Number(520)) + 'px'}" /> 
-    <gldxq ref="gldxq" :style="{left:moveLeft + 'px'}" />
 
-    <ssryForm ref="ssryForm" :style="{left:moveLeft + 'px'}" />
-    <lsryForm ref="lsryForm" :style="{right:moveRight + 'px'}" />
-    
-    <fgxqForm ref="fgxqForm" :style="{left:moveLeft + 'px'}" />
-    <fgtjForm ref="fgtjForm" :style="{right:moveRight + 'px'}" />
+    <communityDetail ref="communityDetail" v-show="communityDetailShow" />
+    <samplingDetail ref="samplingDetail" v-show="samplingDetailShow" />
 
-    <njqyForm ref="njqyForm" :style="{left:moveLeft + 'px'}" />
+    <queryForm ref="queryForm" :style="{ left: moveLeft + 'px' }" />
+    <qzTable
+      ref="qzTable"
+      :style="{ left: Number(moveLeft) + Number(520) + 'px' }"
+    />
+    <gldxq ref="gldxq" :style="{ left: moveLeft + 'px' }" />
+
+    <ssryForm ref="ssryForm" :style="{ left: moveLeft + 'px' }" />
+    <lsryForm ref="lsryForm" :style="{ right: moveRight + 'px' }" />
+
+    <fgxqForm ref="fgxqForm" :style="{ left: moveLeft + 'px' }" />
+    <fgtjForm ref="fgtjForm" :style="{ right: moveRight + 'px' }" />
+
+    <njqyForm ref="njqyForm" :style="{ left: moveLeft + 'px' }" />
   </div>
 </template>
 
@@ -63,7 +89,16 @@ import bottomBtn from "./widget/bottomBtn";
 import bqtj from "./rightDiv/bqtj";
 import bqtj2 from "./rightDiv/bqtj2";
 import sbDate from "./rightDiv/sbDate";
+
+import chart1 from "./rightDiv/chart1";
+import chart2 from "./rightDiv/chart2";
+import chart3 from "./rightDiv/chart3";
+
+import nationwideChart from "./rightDiv/nationwideChart";
 import sbxq from "./pop/sbxq";
+
+import communityDetail from "./pop/communityDetail";
+import samplingDetail from "./pop/samplingDetail";
 
 import mjChart from "./frame/mjChart";
 import streetFrame from "./frame/streetFrame";
@@ -87,14 +122,17 @@ export default {
   name: "macroscopic",
   data() {
     return {
+      nationwideShow: false,
       icon_show_left: false,
       icon_show_right: false,
       leftOptions,
       xqShow: false,
       listShow: false,
       xqjckShow: false,
+      communityDetailShow: false,
+      samplingDetailShow: false,
       moveLeft: "360",
-      moveRight: "500"
+      moveRight: "500",
     };
   },
   components: {
@@ -114,6 +152,16 @@ export default {
     bqtj2,
     // 上报动态数据
     sbDate,
+
+    chart1,
+    chart2,
+    chart3,
+    // 全国图表
+    nationwideChart,
+
+    communityDetail,
+    samplingDetail,
+
     // 上报详情
     sbxq,
 
@@ -141,7 +189,7 @@ export default {
     fgtjForm,
 
     // 南郊企业员工
-    njqyForm
+    njqyForm,
   },
   created() {},
   mounted() {
@@ -150,9 +198,9 @@ export default {
   },
   computed: {
     ...mapState({
-      crjlList: state => state.crjlList,
-      ryxxList: state => state.ryxxList
-    })
+      crjlList: (state) => state.crjlList,
+      ryxxList: (state) => state.ryxxList,
+    }),
   },
   methods: {
     ...mapActions(["fetchcrjlList", "fetchryxxList"]),
@@ -178,8 +226,8 @@ export default {
       } else {
         $("body .esri-ui-bottom-left").css({ left: "20px" });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="less">

@@ -4,11 +4,26 @@
         position: absolute;
         width: 100%;
         top: 50px;
-        z-index: 20;
+        z-index: 40;
 
         p {
             color: #fff;
         }
+    }
+
+    .nationwide {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 29;
+
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
+
     }
 
 
@@ -31,9 +46,10 @@
             right: 0px;
 
             #rightFrame {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
+                // display: flex;
+                // flex-direction: column;
+                // justify-content: space-between;
+                overflow-y: auto;
 
                 border-left: 1px solid;
 
@@ -52,6 +68,19 @@
 
                 >div {
                     box-sizing: border-box;
+                }
+
+                &::-webkit-scrollbar {
+                    display: block;
+                    width: 10px;
+                    background-color: rgb(107, 134, 223);
+                    border-radius: 3px;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    width: 10px;
+                    background-color: rgb(14, 10, 247);
+                    border-radius: 3px;
                 }
             }
         }

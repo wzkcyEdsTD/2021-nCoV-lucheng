@@ -36,24 +36,26 @@
               />
               <span
                 id="xq"
-                v-if="
-                  item.label == '疫情分布' ||
-                  oitem.id == 'glmd' ||
-                  oitem.id == 'gjmj'
-                "
+                v-if="oitem.id == 'isolatedPoint'"
                 @click="ShowListxq(oitem, item)"
+                >详情</span
+              >
+              <span
+                id="xq"
+                v-if="oitem.id == 'detection'"
+                @click="ShowSamplingDetail(oitem, item)"
+                >详情</span
+              >
+              <span
+                id="xq"
+                v-if="oitem.id == 'community'"
+                @click="ShowCommunityDetail(oitem, item)"
                 >详情</span
               >
             </li>
           </ul>
         </div>
       </div>
-    </div>
-    <div class="blueBorder">
-      <p></p>
-      <p></p>
-      <p></p>
-      <p></p>
     </div>
     <div class="mapOption"></div>
   </div>
@@ -83,6 +85,9 @@ export default {
   created() {
     this.tree = this.leftOptions;
     this.items = this.leftformdata;
+  },
+  mounted() {
+    this.$parent.nationwideShow = this.tree[0].check;
   },
   methods: {
     filterItem(index) {
@@ -114,16 +119,26 @@ export default {
       for (let i in this.tree[index].children) {
         this.tree[index].children[i].check = c;
       }
+
+      this.$parent.nationwideShow = this.tree[0].check;
     },
     ShowResult(oitem, item) {
-      if (!this.$parent || !oitem.id || oitem.isImg) return;
-      this.$parent.$refs.table.getItem(oitem, item.label);
-      this.$parent.$refs.sbxq.getItem(oitem, item.label);
-      this.$parent.$refs.bqtj.getItem(oitem, item.label); //调用病例统计echart
+      // if (!this.$parent || !oitem.id || oitem.isImg) return;
+      // this.$parent.$refs.table.getItem(oitem, item.label);
+      // this.$parent.$refs.sbxq.getItem(oitem, item.label);
+      // this.$parent.$refs.bqtj.getItem(oitem, item.label); //调用病例统计echart
     },
     ShowListxq(oitem, item) {
       this.$parent.listShow = true;
       this.$parent.$refs.listxq.getItem(oitem, item.label);
+    },
+    ShowSamplingDetail(oitem, item) {
+      this.$parent.samplingDetailShow = true;
+      this.$parent.$refs.samplingDetail.getItem(oitem, item.label);
+    },
+    ShowCommunityDetail(oitem, item) {
+      this.$parent.communityDetailShow = true;
+      this.$parent.$refs.communityDetail.getItem(oitem, item.label);
     },
     ShowListssry(oitem, item) {
       this.$parent.leftHidden();
@@ -141,7 +156,7 @@ export default {
     },
     intercept() {
       const _tree = this.$util.clone(this.tree);
-      for (let i = 0; i < _tree.length; i++) {
+      for (let i = 1; i < _tree.length; i++) {
         let shall = true;
         _tree[i].children.length
           ? _tree[i].children.map((item) => {
@@ -152,9 +167,9 @@ export default {
           : (shall = false);
         _tree[i].check = shall;
       }
+
       this.tree = _tree;
       this.$parent.leftOptions = this.tree;
-      console.log(this.$parent.leftOptions);
     },
     clean() {
       const _tree = this.$util.clone(this.tree);

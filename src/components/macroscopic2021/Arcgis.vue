@@ -54,9 +54,6 @@ export default {
     const that = this;
     /**init map**/
     await this.createMap();
-    // await this.addQh();
-    // await this.addmbk();
-    await this.addChanyePlate();
 
     // 添加图例标题
     $(".esri-mytitle").remove();
@@ -66,9 +63,10 @@ export default {
 
     this.$props.leftOptions &&
       this.$props.leftOptions.map((_item) => {
-        _item.children.map((item) => {
-          item.id && that.doFun(item);
-        });
+        _item.children &&
+          _item.children.map((item) => {
+            item.id && that.doFun(item);
+          });
       });
     this.jQueryBind();
     this.spaceQuery();
@@ -80,9 +78,10 @@ export default {
         const that = this;
         if (!that.map) return;
         newVal.map((_item) => {
-          _item.children.map((item) => {
-            item.id && that.doFun(item);
-          });
+          _item.children &&
+            _item.children.map((item) => {
+              item.id && that.doFun(item);
+            });
         });
       },
       deep: true,
@@ -129,9 +128,9 @@ export default {
               this.map.remove(this.map.findLayerById(_id_));
           });
         }
-        // 农贸市场
-        if (item.id == "people_type_9") {
-          ["people_type_9", "people_type_9_2"].map((_id_) => {
+        // 隔离点
+        if (item.id == "isolatedPoint") {
+          ["isolatedPoint", "isolatedPoint_2"].map((_id_) => {
             this.map &&
               this.map.findLayerById(_id_) &&
               this.map.remove(this.map.findLayerById(_id_));
@@ -257,23 +256,7 @@ export default {
         context.$parent.legend();
       });
     },
-    //  添加区划图
-    addQh() {
-      const that = this;
-      return new Promise((resolve, reject) => {
-        loadModules(["esri/layers/MapImageLayer"], OPTION).then(
-          ([MapImageLayer]) => {
-            const qh = new MapImageLayer({
-              url: QHMB,
-              id: "lcjjdt",
-              sublayers: [{ id: 3 }, { id: 0 }],
-            });
-            that.map.add(qh, 4);
-            resolve(true);
-          }
-        );
-      });
-    },
+
     // 定位
     goloaction({
       id,
@@ -419,6 +402,7 @@ export default {
       that.view.popup.alignment = "top-center";
       that.view.popup.visible = true;
     },
+
     // 蒙白
     addmbk() {
       const that = this;
@@ -436,31 +420,13 @@ export default {
         );
       });
     },
-    //产业板块
-    addChanyePlate() {
-      const that = this;
-      return new Promise((resolve, reject) => {
-        loadModules(["esri/layers/MapImageLayer"], OPTION).then(
-          ([MapImageLayer]) => {
-            const chanyePlate = new MapImageLayer({
-              url:
-                "http://172.20.89.7:6082/arcgis/rest/services/lucheng/xzjd_ws/MapServer",
-              id: "chanyePlate",
-              opacity: 1,
-            });
-            //  优先级置顶
-            that.map.add(chanyePlate, 2);
-            that.legend.layerInfos.push({});
-            resolve(true);
-          }
-        );
-      });
-    },
+
     romoveLayer() {
       this.map.findLayerById("chanyePlate").visible = !this.map.findLayerById(
         "chanyePlate"
       ).visible;
     },
+
     // 影像图
     yxt() {
       const that = this;
@@ -487,6 +453,7 @@ export default {
         });
       }
     },
+
     // 矢量图
     slt() {
       if (this.map.findLayerById("dsj")) {
@@ -496,6 +463,7 @@ export default {
         this.map.findLayerById("img").visible = false;
       }
     },
+
     // 夜光图
     ygt() {
       const that = this;
@@ -524,6 +492,7 @@ export default {
         });
       }
     },
+
     addFeatures(item, _id_) {
       const id = _id_.replace(/yt_/g, "");
       const that = this;
@@ -558,6 +527,11 @@ export default {
               : ``
           }
           ${
+            id == "qzbl"
+              ? `<div class="bottomBtn mj_btn" data-val="{Name}">密切接触者分布</div>`
+              : ``
+          }
+          ${
             id == "chanyePlate"
               ? `<div class="bottomBtn cp_btn" data-val="{名称}">相关信息分布</div>`
               : ``
@@ -586,11 +560,6 @@ export default {
             id == "glmd"
               ? `<div class="bottomBtn gjmj_btn" data-val="{Name}">密切接触者分布</div>`
               : ``
-          }
-          ${
-            id == "nj_qy"
-              ? `<div class="bottomBtn njqy_btn" data-val="{CompanyName}">企业员工详情</div>`
-              : ``
           }`,
             };
           }
@@ -609,75 +578,53 @@ export default {
               option.url = option.url + "/" + item.sublayers;
             }
           }
-          /* if (item.definitionExpression || shallYT) {
-            const d = [];
-            item.definitionExpression && d.push(item.definitionExpression);
-            shallYT && item.ytd && d.push(item.ytd);
-            if (item.isImg) {
-              d.length &&
-                (option.sublayers[0].definitionExpression = d.join(" and "));
-            } else {
-              d.length && (option.definitionExpression = d.join(" and "));
-            }
-          } */
 
-          if (id == "people_type_9") {
-            option.definitionExpression = `IsOpening = '是'`;
-
+          // 隔离点判断
+          if (id == "isolatedPoint") {
+            option.definitionExpression = `State <> '已启用'`;
             item.icon &&
               (option.renderer = {
                 type: "simple",
                 symbol: {
                   type: "picture-marker",
-                  url: `${server}/icon/other/${item.icon}.png`,
-                  width: "30px",
-                  height: "32px",
+                  url: `${server}/icon/other/${item.icon2}.png`,
+                  width: "34px",
+                  height: "53px",
                 },
-                label:
-                  item.name != "-1"
-                    ? `${item.name}`.split(" ")[0]
-                    : `${item.ytname}`.split(" ")[0],
+                label: "隔离点（备用）",
               });
 
             const feature = new _layers_(option);
-            that.map.add(feature);
-
+            that.map.add(feature, 20);
             that.legend.layerInfos.push({
               title: "",
               layer: feature,
             });
 
-            option.id = "people_type_9_2";
-
-            option.definitionExpression = `IsOpening = '否'`;
-
+            option.id = "isolatedPoint_2";
+            option.definitionExpression = `State = '已启用'`;
             item.icon2 &&
               (option.renderer = {
-                type: "simple", // autocasts as new SimpleRenderer()
+                type: "simple",
                 symbol: {
                   type: "picture-marker",
-                  url: `${server}/icon/other/${item.icon2}.png`,
-                  width: "30px",
-                  height: "32px",
+                  url: `${server}/icon/other/${item.icon}.png`,
+                  width: "34px",
+                  height: "53px",
                 },
-                label:
-                  item.name != "-1"
-                    ? `${item.name}`.split(" ")[0]
-                    : `${item.ytname}`.split(" ")[0],
+                label: "隔离点（已启用）",
               });
 
             const feature2 = new _layers_(option);
-            that.map.add(feature2);
-
+            that.map.add(feature2, 20);
             that.legend.layerInfos.push({
               title: "",
               layer: feature2,
             });
           } else {
-            if (item.definitionExpression || shallYT) {
+            if (item.definitionExpression) {
               const d = [];
               item.definitionExpression && d.push(item.definitionExpression);
-              shallYT && item.ytd && d.push(item.ytd);
               if (item.isImg) {
                 d.length &&
                   (option.sublayers[0].definitionExpression = d.join(" and "));
@@ -692,23 +639,27 @@ export default {
                 symbol: {
                   type: "picture-marker",
                   url: `${server}/icon/other/${item.icon}.png`,
-                  width: "30px",
-                  height: "32px",
+                  width: "34px",
+                  height: "53px",
                 },
-                label:
-                  item.name != "-1"
-                    ? `${item.name}`.split(" ")[0]
-                    : `${item.ytname}`.split(" ")[0],
+                label: `${item.name}`.split(" ")[0],
               });
 
             const feature = new _layers_(option);
-            that.map.add(feature);
 
-            if (id != "wg" && id != "xq") {
+            if (id == "detection") {
+              that.map.add(feature, 20);
+            } else {
+              that.map.add(feature, 3);
+            }
+
+            if (item.isLegend) {
               that.legend.layerInfos.push({
                 title: "",
                 layer: feature,
               });
+            } else {
+              that.legend.layerInfos.push({});
             }
           }
           resolve(true);
@@ -740,66 +691,7 @@ export default {
         }
       });
     },
-    //  监听热力图
-    changeHeat(id, checked) {
-      if (!this.map) return;
-      if (id == "jjgl") {
-        this.map && this.map.findLayerById("heat7")
-          ? (this.map.findLayerById("heat7").visible = checked)
-          : checked == false
-          ? null
-          : this.addHeat(7);
-      } else if (id == "hbhw") {
-        this.map && this.map.findLayerById("heat9")
-          ? (this.map.findLayerById("heat9").visible = checked)
-          : checked == false
-          ? null
-          : this.addHeat(9);
-      }
-    },
-    // 添加热力图
-    addHeat(sublayers) {
-      const that = this;
-      loadModules(
-        ["esri/layers/FeatureLayer", "esri/renderers/HeatmapRenderer"],
-        OPTION
-      ).then(([FeatureLayer, HeatmapRenderer]) => {
-        const heatmapRenderer = new HeatmapRenderer({
-          blurRadius: 6,
-          colorStops: [
-            { ratio: 0, color: "rgba(0, 255, 0, 0)" },
-            { ratio: 0.02, color: "rgb(34, 151, 143)" },
-            { ratio: 0.04, color: "rgb(0, 255, 0)" },
-            { ratio: 0.06, color: "rgb(50, 255, 0)" },
-            { ratio: 0.08, color: "rgb(250, 255, 0)" },
-            { ratio: 0.1, color: "rgb(255, 205, 0)" },
-            { ratio: 0.12, color: "rgb(255, 150, 0)" },
-            { ratio: 0.14, color: "rgb(255, 95, 0)" },
-            { ratio: 0.16, color: "rgb(255, 40, 0)" },
-            { ratio: 0.2, color: "rgb(255, 0, 0)" },
-          ],
-          maxPixelIntensity: 100,
-          minPixelIntensity: 1,
-        });
-        const heat = new FeatureLayer({
-          url: `http://172.20.89.7:6082/arcgis/rest/services/lucheng/fangkong/MapServer/${sublayers}`,
-          id: `heat${sublayers}`,
-          renderer: heatmapRenderer,
-          opacity: 0.7,
-        });
-        that.map.add(heat, 4);
-      });
-    },
-    // 移除热力图
-    removeHeat() {
-      const that = this;
-      that.map &&
-        that.map.findLayerById("heat7") &&
-        that.map.remove(that.map.findLayerById("heat7"));
-      that.map &&
-        that.map.findLayerById("heat9") &&
-        that.map.remove(that.map.findLayerById("heat9"));
-    },
+
     // 空间查询
     spaceQuery() {
       const that = this;

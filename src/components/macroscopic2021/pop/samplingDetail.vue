@@ -1,11 +1,11 @@
 <template>
-  <div id="listxq">
+  <div class="sampling-detail">
     <div class="head">
       <span>[ {{ title }} ] - 详情列表</span>
       <a
         @click="
           () => {
-            this.$parent.listShow = false;
+            this.$parent.samplingDetailShow = false;
           }
         "
         >×</a
@@ -13,18 +13,19 @@
     </div>
     <el-table :data="elList" height="250" border>
       <el-table-column type="index" width="50"> </el-table-column>
-      <el-table-column prop="Name" label="名称"> </el-table-column>
-      <el-table-column prop="Address" label="地址"> </el-table-column>
-      <el-table-column prop="Linkman" label="联系人" width="150">
+      <el-table-column prop="cs_name" label="名称"> </el-table-column>
+      <el-table-column
+        prop="cun_charge_man"
+        label="社(村)负责人(联络方式)"
+        width="220"
+      >
       </el-table-column>
-      <el-table-column prop="LinkphoneNumber" label="联系电话" width="150">
+      <el-table-column prop="link_man" label="联系人(联络方式)" width="220">
       </el-table-column>
-      <el-table-column prop="State" label="启用情况" width="140">
+      <el-table-column prop="information_register_people" label="信息登记员">
       </el-table-column>
-      <el-table-column prop="Contain" label="可容纳人数" width="140">
-      </el-table-column>
-      <el-table-column prop="userate" label="已入住人数" width="140">
-      </el-table-column>
+      <el-table-column prop="grid_people" label="网格员"></el-table-column>
+      <el-table-column prop="guide_people" label="引导员"> </el-table-column>
     </el-table>
   </div>
 </template>
@@ -95,7 +96,9 @@ export default {
         ["esri/tasks/QueryTask", "esri/tasks/support/Query"],
         OPTION
       ).then(async ([QueryTask, Query]) => {
-        const queryTask = new QueryTask({ url: `${url}/${sublayers}` });
+        const queryTask = new QueryTask({
+          url: `http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/cs_grid/MapServer/5`,
+        });
         const query = new Query();
         query.outFields = "*";
         query.where = "1=1";
@@ -153,7 +156,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#listxq {
+.sampling-detail {
   display: flex;
   flex-direction: column;
   position: absolute;

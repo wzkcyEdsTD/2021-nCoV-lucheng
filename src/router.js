@@ -6,8 +6,6 @@ import Vue from "vue";
 import Router from "vue-router";
 // pages modules
 import Macroscopic from "@/components/macroscopic/Macroscopic.vue";
-import Macroscopic2021 from "@/components/macroscopic2021/Macroscopic.vue";
-import Monitor from "@/components/monitor/Monitor.vue";
 Vue.use(Router);
 
 export default new Router({
@@ -19,12 +17,13 @@ export default new Router({
     }, {
       path: "/monitor",
       name: "monitor",
-      component: Monitor
+      // component: Monitor
+      component: () => import( /* webpackChunkName: "monitor" */ './components/monitor/Monitor.vue')
     },
     {
       path: "/macroscopic2021",
       name: "macroscopic2021",
-      component: Macroscopic2021
+      component: () => import( /* webpackChunkName: "monitor" */ './components/macroscopic2021/Macroscopic.vue')
     }
   ]
 });
