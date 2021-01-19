@@ -58,7 +58,7 @@ export default {
     // 添加图例标题
     $(".esri-mytitle").remove();
     $(".esri-legend").prepend(
-      '<div class="esri-legend__message esri-mytitle">图例</div>'
+      '<div class="esri-legend__message esri-mytitle">图例<div class="line"></div></div>'
     );
 
     this.$props.leftOptions &&
@@ -587,11 +587,12 @@ export default {
                 type: "simple",
                 symbol: {
                   type: "picture-marker",
-                  url: `${server}/icon/other/${item.icon2}.png`,
-                  width: "34px",
-                  height: "53px",
+                  url: require(`../common/image/tuli/${item.icon2}.png`),
+                  // url: `${server}/icon/other/${item.icon2}.png`,
+                  width: "19px",
+                  height: "24px",
                 },
-                label: "隔离点（备用）",
+                label: "备用隔离点",
               });
 
             const feature = new _layers_(option);
@@ -608,11 +609,11 @@ export default {
                 type: "simple",
                 symbol: {
                   type: "picture-marker",
-                  url: `${server}/icon/other/${item.icon}.png`,
-                  width: "34px",
-                  height: "53px",
+                  url: require(`../common/image/tuli/${item.icon}.png`),
+                  width: "19px",
+                  height: "24px",
                 },
-                label: "隔离点（已启用）",
+                label: "启用隔离点",
               });
 
             const feature2 = new _layers_(option);
@@ -638,9 +639,10 @@ export default {
                 type: "simple",
                 symbol: {
                   type: "picture-marker",
-                  url: `${server}/icon/other/${item.icon}.png`,
-                  width: "34px",
-                  height: "53px",
+                  url:require(`../common/image/tuli/${item.icon}.png`),
+                  // url: `${server}/icon/other/${item.icon}.png`,
+                  width: "14px",
+                  height: "14px",
                 },
                 label: `${item.name}`.split(" ")[0],
               });

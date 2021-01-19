@@ -10,7 +10,7 @@
         :leftOptions="leftOptions"
       />
     </div>
-    <div class="nationwide" v-show="nationwideShow">
+    <div class="nationwide" v-if="nationwideShow">
       <iframe src="http://www.lubulai.com/" frameborder="0"></iframe>
     </div>
     <div class="Com_container">
