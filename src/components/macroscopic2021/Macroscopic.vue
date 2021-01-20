@@ -11,8 +11,10 @@
       />
     </div>
     <div class="nationwide" v-if="nationwideShow">
-      <!-- <topDate style="top:15vh"/> -->
+      <topDate/>
+      <img src="@/components/common/image/全国图例.png" class="legend">
       <iframe src="http://www.lubulai.com/" frameborder="0"></iframe>
+
     </div>
     <div class="Com_container">
       <div

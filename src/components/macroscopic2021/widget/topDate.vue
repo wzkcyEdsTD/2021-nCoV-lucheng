@@ -2,38 +2,91 @@
   <div id="topDateDiv">
     <ul>
       <li>
-        <h4>
-          较上日
-          <span style="color:#ff283a">{{$window.nCov_luchengData.macroscopic.lc.add_qzbl}}</span>
-        </h4>
-        <h3 style="color:#ff283a">{{$window.nCov_luchengData.macroscopic.lc.qzbl}} 人</h3>
-        <p>确诊病例</p>
+        <!-- 全国 -->
+        <div>
+          <div class="title">
+            <img src="~@/components/common/image/标题.png" class="titleImg">
+            <div class="titleText">全国</div>
+          </div>
+        </div>
+        <div class="line">
+          <div class="text">现有确诊 </div>
+          <div class="number">2031</div>
+        </div>
+        <div class="line">
+          <div class="text">新增确诊 </div>
+          <div class="number">+118</div>
+        </div>
+        <div class="line">
+          <div class="text">累计确诊 </div>
+          <div class="number">98801</div>
+        </div>
       </li>
       <li>
-        <h4>
-          较上日
-          <span style="color:#fcc659">{{$window.nCov_luchengData.macroscopic.lc.add_zzbl}}</span>
-        </h4>
-        <h3 style="color:#fcc659">{{$window.nCov_luchengData.macroscopic.lc.zzbl}} 人</h3>
-        <p>疑似病例</p>
+        <!-- 浙江 -->
+        <div>
+          <div class="title">
+            <img src="~@/components/common/image/标题.png" class="titleImg">
+            <div class="titleText">浙江</div>
+          </div>
+        </div>
+        <div class="line">
+          <div class="text">现有确诊 </div>
+          <div class="number">12</div>
+        </div>
+        <div class="line">
+          <div class="text">新增确诊 </div>
+          <div class="number">+2</div>
+        </div>
+        <div class="line">
+          <div class="text">累计确诊 </div>
+          <div class="number">1311</div>
+        </div>
       </li>
       <li>
-        <h4>
-          较上日
-          <span style="color:#f6e31b">{{$window.nCov_luchengData.macroscopic.add_death}}</span>
-        </h4>
-        <h3 style="color:#f6e31b">{{$window.nCov_luchengData.macroscopic.death}} 人</h3>
-        <p>死亡人数</p>
+        <!-- 温州 -->
+        <div>
+          <div class="title">
+            <img src="~@/components/common/image/标题.png" class="titleImg">
+            <div class="titleText">温州</div>
+          </div>
+        </div>
+        <div class="line">
+          <div class="text">现有确诊 </div>
+          <div class="number">0</div>
+        </div>
+        <div class="line">
+          <div class="text">新增确诊 </div>
+          <div class="number">+0</div>
+        </div>
+        <div class="line">
+          <div class="text">累计确诊 </div>
+          <div class="number">513</div>
+        </div>
       </li>
       <li>
-        <h4>
-          较上日
-          <span style="color:#1eff95">{{$window.nCov_luchengData.macroscopic.add_cure}}</span>
-        </h4>
-        <h3 style="color:#1eff95">{{$window.nCov_luchengData.macroscopic.cure}} 人</h3>
-        <p>治愈人数</p>
+        <!-- 鹿城 -->
+        <div>
+          <div class="title">
+            <img src="~@/components/common/image/标题.png" class="titleImg">
+            <div class="titleText">鹿城</div>
+          </div>
+        </div>
+        <div class="line">
+          <div class="text">现有确诊 </div>
+          <div class="number">0</div>
+        </div>
+        <div class="line">
+          <div class="text">新增确诊 </div>
+          <div class="number">+0</div>
+        </div>
+        <div class="line">
+          <div class="text">累计确诊 </div>
+          <div class="number">3</div>
+        </div>
       </li>
     </ul>
+
   </div>
 </template>
 
@@ -44,19 +97,62 @@ export default {};
 <style lang="less" scoped>
 #topDateDiv {
   position: absolute;
-  top: 90px;
+  top: 13vh;
   width: 100%;
   z-index: 20;
 
   ul li {
-    width: 5%;
+    width: 15vh;
     margin: auto;
+    // border-radius: 8px;
     display: inline-block;
-    background-color: #1b45a7;
-    border: 1px solid #07e2e8;
+    // background-color: #1C54C4;
+    background-image: url("../../common/image/背景框.png");
+    // border: 1px solid #07e2e8;
     margin-left: 10px;
     padding: 5px 9px;
     color: #07e2e8;
+
+    .title{
+      position: relative;
+      .titleText{
+        font-family: "YouSheBiaoTiHei";
+        font-size: 2.2vh;
+        color: #FFFFFF;
+        position:absolute;
+        top: 0.1vh;
+        left: 5.5vh;
+      }
+
+      .titleImg{
+        position: relative;
+        left: 1%;
+        top: 0.4vh;
+      }
+    }
+
+    .line{
+      display: flex;
+      align-items: center;
+      justify-content:center; 
+      .text{
+        font-family: "pingFang SC";
+        font-size: 1.6vh;
+        color: #FFFFFF;
+        padding-left: 5%;
+      }
+      .number{
+        margin-left: auto;
+        // width: 6vh;
+        // padding-left: 6%;
+        font-family: "DIN";
+        font-size: 2.2vh;
+        color: #36FFFF;
+        padding-right: 3%;
+      }
+    }
+
   }
+
 }
 </style>

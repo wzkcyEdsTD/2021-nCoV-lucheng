@@ -5,6 +5,11 @@ import router from "./router";
 import store from "./store";
 import "./components/common/_iconfont/iconfont.js";
 import "./components/common/_iconfont/iconfont.css";
+
+import "./components/common/fonts/YouSheBiaoTiHei.css";
+import "./components/common/fonts/font.css";
+import "./components/common/fonts/DIN.css";
+
 import echarts from "echarts/lib/echarts";
 import {
   auth_token,
