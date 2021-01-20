@@ -29,20 +29,20 @@ export default {
             text: "隔离点：44",
             top: "40%",
             textAlign: "center",
-            left: "40%",
+            left: "39%",
             textStyle: {
               color: "#fff",
-              fontSize: 16,
+              fontSize: 14,
             },
           },
           {
-            text: "核酸采样点：390",
+            text: "可容纳人数：4478",
             top: "50%",
             textAlign: "center",
-            left: "40%",
+            left: "39%",
             textStyle: {
               color: "#fff",
-              fontSize: 16,
+              fontSize: 14,
             },
           },
         ],
@@ -88,10 +88,6 @@ export default {
               {
                 name: "备用隔离点 43",
                 value: 43,
-              },
-              {
-                name: "核酸采样点 390",
-                value: 390,
               },
               {
                 name: "爆满隔离点 0",

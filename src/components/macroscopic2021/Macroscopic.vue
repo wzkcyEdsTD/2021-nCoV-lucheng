@@ -30,9 +30,9 @@
       >
         <div id="rightFrame">
           <chart1 v-show="!nationwideShow" />
-          <chart2 v-show="!nationwideShow" />
           <chart3 v-show="!nationwideShow" />
-          <nationwideChart v-show="nationwideShow"/>
+          <chart2 v-show="!nationwideShow" />
+          <nationwideChart v-show="nationwideShow" />
           <!-- <bqtj ref="bqtj" />
           <bqtj2 ref="bqtj2" />
           <sbDate ref="table" /> -->
