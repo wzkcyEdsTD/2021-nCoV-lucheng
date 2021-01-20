@@ -716,11 +716,12 @@ export default {
                 // console.log(response.features)
 
                 const list = []
+
                 if (response.features.length) {
                   const data = response.features;
 
                   // debugger
-                  let list1 = [];
+                  const list1 = [];
                   data.forEach(element => {
                     // debugger
                     const list = []
@@ -731,7 +732,7 @@ export default {
                     list.push(name,linkmannumber),
                     list1.push(list);
                   });
-                  let ra = list1
+                  const ra = list1
                       .map(item => {
                           return item instanceof Array ?
                               `<table class="esri-widget__table"><tbody>${item
@@ -749,6 +750,10 @@ export default {
                   console.log(ra);
                   that.map.findLayerById("community").popupTemplate = {
                     content:ra
+                  }
+                }else{
+                  that.map.findLayerById("community").popupTemplate = {
+                      content:`<p>暂无数据</p>`
                   }
                 }
               });
