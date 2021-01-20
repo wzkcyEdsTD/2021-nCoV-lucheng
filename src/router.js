@@ -12,8 +12,9 @@ export default new Router({
   mode: "hash",
   routes: [{
       path: "/",
-      name: "macroscopic",
-      component: Macroscopic
+      name: "macroscopic2021",
+      component: () => import( /* webpackChunkName: "monitor" */ './components/macroscopic2021/Macroscopic.vue')
+
     }, {
       path: "/monitor",
       name: "monitor",
@@ -21,9 +22,9 @@ export default new Router({
       component: () => import( /* webpackChunkName: "monitor" */ './components/monitor/Monitor.vue')
     },
     {
-      path: "/macroscopic2021",
-      name: "macroscopic2021",
-      component: () => import( /* webpackChunkName: "monitor" */ './components/macroscopic2021/Macroscopic.vue')
+      path: "/macroscopic",
+      name: "macroscopic",
+      component: Macroscopic
     }
   ]
 });

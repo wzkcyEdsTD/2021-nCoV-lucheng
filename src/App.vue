@@ -59,12 +59,12 @@ export default {
   data() {
     return {
       toptab: [
-        { label: "2020疫情布控", route: "macroscopic", path: "/" },
+        { label: "2020疫情布控", route: "macroscopic", path: "/macroscopic" },
         { label: "做地出让", route: "monitor", path: "/monitor" },
         {
           label: "2021疫情布控",
           route: "macroscopic2021",
-          path: "/macroscopic2021",
+          path: "/",
         },
       ],
       titleHash: {

@@ -11,6 +11,7 @@
       />
     </div>
     <div class="nationwide" v-if="nationwideShow">
+      <!-- <topDate style="top:15vh"/> -->
       <iframe src="http://www.lubulai.com/" frameborder="0"></iframe>
     </div>
     <div class="Com_container">
@@ -31,7 +32,7 @@
           <chart1 v-show="!nationwideShow" />
           <chart2 v-show="!nationwideShow" />
           <chart3 v-show="!nationwideShow" />
-          <nationwideChart />
+          <nationwideChart v-show="nationwideShow"/>
           <!-- <bqtj ref="bqtj" />
           <bqtj2 ref="bqtj2" />
           <sbDate ref="table" /> -->
@@ -39,7 +40,7 @@
         <span @click="toggle2" class="hidden_right_button"></span>
       </div>
     </div>
-    <!-- <topDate /> -->
+
     <xzDate />
     <bottomBtn />
 

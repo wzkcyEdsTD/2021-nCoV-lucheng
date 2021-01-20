@@ -504,6 +504,7 @@ export default {
           OPTION
         ).then(([FeatureLayer, MapImageLayer]) => {
           const option = { url, id: _id_, outFields: "*" };
+
           if (tipHash[id] && Hash[tipHash[id]]) {
             const _hash_ = Hash[tipHash[id]];
             option.popupTemplate = {
@@ -587,10 +588,9 @@ export default {
                 type: "simple",
                 symbol: {
                   type: "picture-marker",
-                  url: require(`../common/image/tuli/${item.icon2}.png`),
-                  // url: `${server}/icon/other/${item.icon2}.png`,
-                  width: "19px",
-                  height: "24px",
+                  url: `${server}/icon/other/${item.icon2}.png`,
+                  width: "34px",
+                  height: "53px",
                 },
                 label: "备用隔离点",
               });
@@ -609,9 +609,9 @@ export default {
                 type: "simple",
                 symbol: {
                   type: "picture-marker",
-                  url: require(`../common/image/tuli/${item.icon}.png`),
-                  width: "19px",
-                  height: "24px",
+                  url: `${server}/icon/other/${item.icon}.png`,
+                  width: "34px",
+                  height: "53px",
                 },
                 label: "启用隔离点",
               });
@@ -654,7 +654,7 @@ export default {
             } else {
               that.map.add(feature, 3);
             }
-
+            // debugger
             if (item.isLegend) {
               that.legend.layerInfos.push({
                 title: "",
@@ -678,6 +678,7 @@ export default {
           (that.map.findLayerById("wg") &&
             that.map.findLayerById("wg").visible) ||
           (that.map.findLayerById("xq") && that.map.findLayerById("xq").visible)
+          
         ) {
           that.view.hitTest(evt).then(function (response) {
             const spaceGraphicsLayer = that.map.findLayerById("spaceLayer");
@@ -689,6 +690,71 @@ export default {
               : ds.attributes.name;
 
             that.queryAll(spaceGraphicsLayer, ds);
+          });
+        }else if(
+          (that.map.findLayerById("community") && that.map.findLayerById("community").visible)
+        ){
+          that.view.hitTest(evt).then(function (response) {
+            const ds = response.results[0].graphic;
+            let cs_id = ds.attributes.cs_id;
+            // console.log('community',that.map.findLayerById("community"))
+            loadModules(
+              ["esri/tasks/QueryTask", "esri/tasks/support/Query","esri/PopupTemplate"],
+              OPTION
+            )
+            .then(([QueryTask, Query, PopupTemplate]) => {
+              const queryTask = new QueryTask({
+                url: `http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/GeiLiDianLuCheng/MapServer/2`,
+              });
+              const query = new Query();
+              query.outFields = ["*"];
+              query.returnGeometry = true;
+              query.where = `cs_id ='${cs_id}'`;
+
+              queryTask.execute(query).then((response) => {
+
+                // console.log(response.features)
+
+                const list = []
+                if (response.features.length) {
+                  const data = response.features;
+
+                  // debugger
+                  let list1 = [];
+                  data.forEach(element => {
+                    // debugger
+                    const list = []
+                    const name = `${element.attributes.name}@姓名`
+                    const gzry = `${element.attributes.gzry}`
+                    const linkmannumber = `${element.attributes.linkmannumber}@联系方式`
+                    list1.push(gzry)
+                    list.push(name,linkmannumber),
+                    list1.push(list);
+                  });
+                  let ra = list1
+                      .map(item => {
+                          return item instanceof Array ?
+                              `<table class="esri-widget__table"><tbody>${item
+                                  .map(o => {
+                                      const [val, label] = o.split("@");
+                                      return `<tr>
+                                                  <th class="esri-feature__field-header">${label}</th>
+                                                  <td class="esri-feature__field-data">${val ? `${val}` : ""}</td>
+                                              </tr>`;
+                                  })
+                                  .join("")}</tbody></table>` :
+                                `<p>${item}</p>`;
+                      })
+                      .join("");
+                  console.log(ra);
+                  that.map.findLayerById("community").popupTemplate = {
+                    content:ra
+                  }
+                }
+              });
+
+            });
+
           });
         }
       });
