@@ -160,12 +160,13 @@ export default {
     margin: auto;
     // border-radius: 8px;
     display: inline-block;
-    // background-color: #1C54C4;
-    background-image: url("../../common/image/背景框.png");
+    background-color: rgba(29, 78, 143, 0.7);
+    // background-image: url("../../common/image/背景框.png");
     // border: 1px solid #07e2e8;
     margin-left: 10px;
     padding: 5px 9px;
     color: #07e2e8;
+    border-radius: 1vh;
 
     .title{
       position: relative;
