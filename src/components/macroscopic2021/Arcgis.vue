@@ -620,7 +620,7 @@ export default {
               },
               labelPlacement: "above-center",
               labelExpressionInfo: {
-                expression: "$feature.Name",
+                expression: "$feature.shortname",
               },
             };
 
