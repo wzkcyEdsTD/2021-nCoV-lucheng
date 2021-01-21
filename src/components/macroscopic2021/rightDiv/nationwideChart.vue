@@ -16,7 +16,6 @@
           :key="index"
           :id="index"
         >
-
             <span class="indexList ">{{item.projectName}}</span>
             <span class="contentList" @click="wholeCountryClick(item.wholeCountryRemark,index)" >{{
               item.wholeCountry
@@ -30,8 +29,6 @@
             <span class="contentList" @click="luchengClick(item.luchengRemark,index)">{{
               item.lucheng
             }}</span>
-
-
         </li>
       </ul>
     </div>
@@ -41,36 +38,89 @@
 <script>
 import { mapState} from "vuex";
 export default {
+   data() {
+    return {
+      index:-1,
+    };
+  },
   computed: {
     ...mapState({
       qgsjList: state => state.qgsjList,
     })
   },
   methods:{
+    
+    close(){
+      $(".new-li").remove();
+    },
 
     wholeCountryClick(wholeCountryRemark,index){
       // debugger
+      const that = this;
+      if(that.index != -1){
+        if($(".new-li").length > 0){
+          if(index == that.index){
+            $(".new-li").remove();
+            that.index = -1;
+            return
+          }
+        }
+      }
+      this.index = index;
       $(".new-li").remove();
       if(wholeCountryRemark){
-        $(`#${index}`).after(`<li class="new-li">${wholeCountryRemark}</li>`);
+        $(`#${index}`).after(`<li class="new-li ">${wholeCountryRemark}</li>`);
       }
     },
     zhejiangClick(zhejiangRemark,index){
+      const that = this;
+      if(that.index != -1){
+        if($(".new-li").length > 0){
+          if(index == that.index){
+            $(".new-li").remove();
+            that.index = -1;
+            return
+          }
+        }
+      }
+      this.index = index;
       $(".new-li").remove();
       if(zhejiangRemark){
-        $(`#${index}`).after(`<li class="new-li">${zhejiangRemark}</li>`);
+        $(`#${index}`).after(`<li class="new-li ">${zhejiangRemark}</li>`);
       }
     },
     wenzhouClick(wenzhouRemark,index){
+      const that = this;
+      if(that.index != -1){
+        if($(".new-li").length > 0){
+          if(index == that.index){
+            $(".new-li").remove();
+            that.index = -1;
+            return
+          }
+        }
+      }
+      this.index = index;
       $(".new-li").remove();
       if(wenzhouRemark){
-        $(`#${index}`).after(`<li class="new-li">${wenzhouRemark}</li>`);
+        $(`#${index}`).after(`<li class="new-li ">${wenzhouRemark}</li>`);
       }
     },
     luchengClick(luchengRemark,index){
+      const that = this;
+      if(that.index != -1){
+        if($(".new-li").length > 0){
+          if(index == that.index){
+            $(".new-li").remove();
+            that.index = -1;
+            return
+          }
+        }
+      }
+      this.index = index;
       $(".new-li").remove();
       if(luchengRemark){
-        $(`#${index}`).after(`<li class="new-li">${luchengRemark}</li>`);
+        $(`#${index}`).after(`<li class="new-li ">${luchengRemark}</li>`);
       }
     },
   }
@@ -221,5 +271,9 @@ export default {
   color: #FAFAFA;
   line-height: 3.8vh;
   height: 3.5vh;
+  .new-img{
+    width: 1vh;
+    height: 1vh;
+  }
 }
 </style>
