@@ -34,6 +34,7 @@
           <chart1 v-show="!nationwideShow" />
           <chart3 v-show="!nationwideShow" />
           <chart2 v-show="!nationwideShow" />
+          <chart4 v-show="!nationwideShow" />
           <nationwideChart v-show="nationwideShow" />
           <!-- <bqtj ref="bqtj" />
           <bqtj2 ref="bqtj2" />
@@ -96,6 +97,7 @@ import sbDate from "./rightDiv/sbDate";
 import chart1 from "./rightDiv/chart1";
 import chart2 from "./rightDiv/chart2";
 import chart3 from "./rightDiv/chart3";
+import chart4 from "./rightDiv/chart4";
 
 import nationwideChart from "./rightDiv/nationwideChart";
 import sbxq from "./pop/sbxq";
@@ -159,6 +161,7 @@ export default {
     chart1,
     chart2,
     chart3,
+    chart4,
     // 全国图表
     nationwideChart,
 
