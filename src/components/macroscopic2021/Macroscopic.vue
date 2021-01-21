@@ -31,10 +31,11 @@
         }`"
       >
         <div id="rightFrame">
+          <chart4 v-show="!nationwideShow" />
           <chart1 v-show="!nationwideShow" />
           <chart3 v-show="!nationwideShow" />
           <chart2 v-show="!nationwideShow" />
-          <chart4 v-show="!nationwideShow" />
+
           <nationwideChart v-show="nationwideShow" />
           <!-- <bqtj ref="bqtj" />
           <bqtj2 ref="bqtj2" />

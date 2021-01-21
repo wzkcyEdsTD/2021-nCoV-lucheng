@@ -1,7 +1,7 @@
 <template>
   <div class="chart3">
     <!-- <img src="@/components/common/image/rightDiv/chart3.png" /> -->
-    <span class="chart-title">街道核酸检测点分布</span>
+    <span class="chart-title">街道核酸采样点分布</span>
     <div id="barChart3">
       <table>
         <tr v-for="(item, index) in chartData" :key="index" style="height: 4vh;">

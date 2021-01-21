@@ -254,7 +254,7 @@ export default {
   width: 100%;
   height: 30%;
   background-color: #2c599e;
-  
+  margin-bottom: 15px;
 
   > img {
     width: 100%;
