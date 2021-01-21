@@ -99,41 +99,39 @@ export default {
         this.map && this.map.findLayerById(_id_)
           ? (this.map.findLayerById(_id_).visible = true)
           : this.addFeatures(item, _id_);
-        this.map && this.map.findLayerById("fangkong")
-          ? (this.map.findLayerById("fangkong").visible = false)
-          : null;
+
+        if (item.id == "isolatedPoint") {
+          ["isolatedPoint_2"].map((_id_) => {
+            this.map &&
+              this.map.findLayerById(_id_) &&
+              (this.map.findLayerById(_id_).visible = true);
+          });
+        }
+
+        // 缩放层级显示
+        const zoom = this.view.zoom;
+        if (zoom >= 15) {
+          ["isolatedPoint", "isolatedPoint_2", "detection"].map((_id) => {
+            this.map.findLayerById(_id) &&
+              (this.map.findLayerById(_id).labelsVisible = true);
+          });
+        } else {
+          ["isolatedPoint", "isolatedPoint_2", "detection"].map((_id) => {
+            this.map.findLayerById(_id) &&
+              (this.map.findLayerById(_id).labelsVisible = false);
+          });
+        }
       } else {
         this.map && this.map.findLayerById(item.id)
           ? (this.map.findLayerById(item.id).visible = false)
           : null;
-        this.map && this.map.findLayerById("yt_" + item.id)
-          ? (this.map.findLayerById("yt_" + item.id).visible = false)
-          : null;
-        if (item.id == "qzbl") {
-          this.map &&
-            this.map.findLayerById("mj_link") &&
-            this.map.remove(this.map.findLayerById("mj_link"));
-        }
-        if (item.id == "chanyePlate") {
-          ["cp_qzbl", "cp_zzbl", "cp_mj"].map((_id_) => {
-            this.map &&
-              this.map.findLayerById(_id_) &&
-              this.map.remove(this.map.findLayerById(_id_));
-          });
-        }
-        if (item.id == "xq") {
-          ["xq_qzbl", "xq_zzbl", "xq_mj"].map((_id_) => {
-            this.map &&
-              this.map.findLayerById(_id_) &&
-              this.map.remove(this.map.findLayerById(_id_));
-          });
-        }
+
         // 隔离点
         if (item.id == "isolatedPoint") {
-          ["isolatedPoint", "isolatedPoint_2"].map((_id_) => {
+          ["isolatedPoint_2"].map((_id_) => {
             this.map &&
               this.map.findLayerById(_id_) &&
-              this.map.remove(this.map.findLayerById(_id_));
+              (this.map.findLayerById(_id_).visible = false);
           });
         }
       }
@@ -177,6 +175,22 @@ export default {
           });
           that.view.ui.add(that.legend, "bottom-left");
           that.view.on("click", function (evt) {});
+
+          // 缩放层级显示
+          that.view.watch("zoom", (zoom) => {
+            if (zoom >= 15) {
+              ["isolatedPoint", "isolatedPoint_2", "detection"].map((_id) => {
+                that.map.findLayerById(_id) &&
+                  (that.map.findLayerById(_id).labelsVisible = true);
+              });
+            } else {
+              ["isolatedPoint", "isolatedPoint_2", "detection"].map((_id) => {
+                that.map.findLayerById(_id) &&
+                  (that.map.findLayerById(_id).labelsVisible = false);
+              });
+            }
+          });
+
           resolve(true);
         });
       });
@@ -595,6 +609,23 @@ export default {
                 label: "备用隔离点",
               });
 
+            const labelClass = {
+              symbol: {
+                type: "text",
+                color: "green",
+                font: {
+                  size: 12,
+                  weight: "bold",
+                },
+              },
+              labelPlacement: "above-center",
+              labelExpressionInfo: {
+                expression: "$feature.Name",
+              },
+            };
+
+            option.labelingInfo = [labelClass];
+
             const feature = new _layers_(option);
             that.map.add(feature, 20);
             that.legend.layerInfos.push({
@@ -622,6 +653,20 @@ export default {
               title: "",
               layer: feature2,
             });
+
+            // 缩放层级显示
+            const zoom = that.view.zoom;
+            if (zoom >= 15) {
+              ["isolatedPoint", "isolatedPoint_2"].map((_id) => {
+                that.map.findLayerById(_id) &&
+                  (that.map.findLayerById(_id).labelsVisible = true);
+              });
+            } else {
+              ["isolatedPoint", "isolatedPoint_2"].map((_id) => {
+                that.map.findLayerById(_id) &&
+                  (that.map.findLayerById(_id).labelsVisible = false);
+              });
+            }
           } else {
             if (item.definitionExpression) {
               const d = [];
@@ -639,13 +684,32 @@ export default {
                 type: "simple",
                 symbol: {
                   type: "picture-marker",
-                  url:require(`../common/image/tuli/${item.icon}.png`),
+                  url: require(`../common/image/tuli/${item.icon}.png`),
                   // url: `${server}/icon/other/${item.icon}.png`,
                   width: "14px",
                   height: "14px",
                 },
                 label: `${item.name}`.split(" ")[0],
               });
+
+            if (id == "detection") {
+              option.labelingInfo = [
+                {
+                  symbol: {
+                    type: "text",
+                    color: "green",
+                    font: {
+                      size: 12,
+                      weight: "bold",
+                    },
+                  },
+                  labelPlacement: "above-center",
+                  labelExpressionInfo: {
+                    expression: "$feature.Name",
+                  },
+                },
+              ];
+            }
 
             const feature = new _layers_(option);
 
@@ -663,6 +727,16 @@ export default {
             } else {
               that.legend.layerInfos.push({});
             }
+
+            // 缩放层级显示
+            const zoom = that.view.zoom;
+            if (zoom >= 16) {
+              that.map.findLayerById("detection") &&
+                (that.map.findLayerById("detection").labelsVisible = true);
+            } else {
+              that.map.findLayerById("detection") &&
+                (that.map.findLayerById("detection").labelsVisible = false);
+            }
           }
           resolve(true);
         });
@@ -678,7 +752,6 @@ export default {
           (that.map.findLayerById("wg") &&
             that.map.findLayerById("wg").visible) ||
           (that.map.findLayerById("xq") && that.map.findLayerById("xq").visible)
-          
         ) {
           that.view.hitTest(evt).then(function (response) {
             const spaceGraphicsLayer = that.map.findLayerById("spaceLayer");
@@ -691,18 +764,22 @@ export default {
 
             that.queryAll(spaceGraphicsLayer, ds);
           });
-        }else if(
-          (that.map.findLayerById("community") && that.map.findLayerById("community").visible)
-        ){
+        } else if (
+          that.map.findLayerById("community") &&
+          that.map.findLayerById("community").visible
+        ) {
           that.view.hitTest(evt).then(function (response) {
             const ds = response.results[0].graphic;
             let cs_id = ds.attributes.cs_id;
             // console.log('community',that.map.findLayerById("community"))
             loadModules(
-              ["esri/tasks/QueryTask", "esri/tasks/support/Query","esri/PopupTemplate"],
+              [
+                "esri/tasks/QueryTask",
+                "esri/tasks/support/Query",
+                "esri/PopupTemplate",
+              ],
               OPTION
-            )
-            .then(([QueryTask, Query, PopupTemplate]) => {
+            ).then(([QueryTask, Query, PopupTemplate]) => {
               const queryTask = new QueryTask({
                 url: `http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/GeiLiDianLuCheng/MapServer/2`,
               });
@@ -712,54 +789,52 @@ export default {
               query.where = `cs_id ='${cs_id}'`;
 
               queryTask.execute(query).then((response) => {
-
                 // console.log(response.features)
 
-                const list = []
+                const list = [];
 
                 if (response.features.length) {
                   const data = response.features;
 
                   // debugger
                   const list1 = [];
-                  data.forEach(element => {
+                  data.forEach((element) => {
                     // debugger
-                    const list = []
-                    const name = `${element.attributes.name}@姓名`
-                    const gzry = `${element.attributes.gzry}`
-                    const linkmannumber = `${element.attributes.linkmannumber}@联系方式`
-                    list1.push(gzry)
-                    list.push(name,linkmannumber),
-                    list1.push(list);
+                    const list = [];
+                    const name = `${element.attributes.name}@姓名`;
+                    const gzry = `${element.attributes.gzry}`;
+                    const linkmannumber = `${element.attributes.linkmannumber}@联系方式`;
+                    list1.push(gzry);
+                    list.push(name, linkmannumber), list1.push(list);
                   });
                   const ra = list1
-                      .map(item => {
-                          return item instanceof Array ?
-                              `<table class="esri-widget__table"><tbody>${item
-                                  .map(o => {
-                                      const [val, label] = o.split("@");
-                                      return `<tr>
+                    .map((item) => {
+                      return item instanceof Array
+                        ? `<table class="esri-widget__table"><tbody>${item
+                            .map((o) => {
+                              const [val, label] = o.split("@");
+                              return `<tr>
                                                   <th class="esri-feature__field-header">${label}</th>
-                                                  <td class="esri-feature__field-data">${val ? `${val}` : ""}</td>
+                                                  <td class="esri-feature__field-data">${
+                                                    val ? `${val}` : ""
+                                                  }</td>
                                               </tr>`;
-                                  })
-                                  .join("")}</tbody></table>` :
-                                `<p>${item}</p>`;
-                      })
-                      .join("");
+                            })
+                            .join("")}</tbody></table>`
+                        : `<p>${item}</p>`;
+                    })
+                    .join("");
                   console.log(ra);
                   that.map.findLayerById("community").popupTemplate = {
-                    content:ra
-                  }
-                }else{
+                    content: ra,
+                  };
+                } else {
                   that.map.findLayerById("community").popupTemplate = {
-                      content:`<p>暂无数据</p>`
-                  }
+                    content: `<p>暂无数据</p>`,
+                  };
                 }
               });
-
             });
-
           });
         }
       });

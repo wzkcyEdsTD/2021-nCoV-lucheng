@@ -13,6 +13,7 @@
               @click="stop($event)"
             />
             <i
+              v-if="item.children"
               :class="`iconfont ${
                 item.show ? `iconRectangleCopy7` : `iconRectangleCopy4`
               }`"
@@ -24,12 +25,9 @@
                 type="checkbox"
                 v-if="!item.disabled"
                 v-model="oitem.check"
-                @change="changeTree(oitem)"
-                @click="ShowResult(oitem, item)"
+                @change="changeTree(item, index, oitem)"
               />
-              <p @click="ShowResult(oitem, item), changeTree(oitem)">
-                {{ oitem.name }}
-              </p>
+              <p>{{ oitem.name }}</p>
               <ToggleSwitch
                 v-if="oitem.id == 'jjgl' || oitem.id == 'hbhw'"
                 @change="change(oitem.id)"
@@ -105,11 +103,8 @@ export default {
       }
     },
     //触发父元素
-    changeTree(item, event) {
-      this.intercept();
-      this.$parent &&
-        this.$parent.Listcontact &&
-        this.$parent.Listcontact(item);
+    changeTree(item, index, oitem) {
+      this.intercept(item, index, oitem);
     },
     stop(e) {
       e.stopPropagation();
@@ -120,14 +115,22 @@ export default {
         this.tree[index].children[i].check = c;
       }
 
+      // 全国与鹿城互斥
+      if (index != 0 && c) {
+        this.tree[0].check = false;
+      } else if (index == 0 && c) {
+        this.tree.map((k, i) => {
+          if (i != 0) {
+            k.check = false;
+            k.children.map((_k) => {
+              _k.check = false;
+            });
+          }
+        });
+      }
       this.$parent.nationwideShow = this.tree[0].check;
     },
-    ShowResult(oitem, item) {
-      // if (!this.$parent || !oitem.id || oitem.isImg) return;
-      // this.$parent.$refs.table.getItem(oitem, item.label);
-      // this.$parent.$refs.sbxq.getItem(oitem, item.label);
-      // this.$parent.$refs.bqtj.getItem(oitem, item.label); //调用病例统计echart
-    },
+
     ShowListxq(oitem, item) {
       this.$parent.listShow = true;
       this.$parent.$refs.listxq.getItem(oitem, item.label);
@@ -154,13 +157,13 @@ export default {
       this.$parent.$refs.fgxqForm.getItem();
       this.$parent.$refs.fgtjForm.getItem();
     },
-    intercept() {
+    intercept(item, index, oitem) {
       const _tree = this.$util.clone(this.tree);
       for (let i = 1; i < _tree.length; i++) {
         let shall = true;
         _tree[i].children.length
-          ? _tree[i].children.map((item) => {
-              if (!item.check) {
+          ? _tree[i].children.map((_item) => {
+              if (!_item.check) {
                 shall = false;
               }
             })
@@ -168,8 +171,14 @@ export default {
         _tree[i].check = shall;
       }
 
+      // 全国与鹿城互斥
+      if (index != 0 && oitem.check) {
+        _tree[0].check = false;
+      }
+
       this.tree = _tree;
       this.$parent.leftOptions = this.tree;
+      this.$parent.nationwideShow = this.tree[0].check;
     },
     clean() {
       const _tree = this.$util.clone(this.tree);

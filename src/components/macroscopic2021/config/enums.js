@@ -51,36 +51,36 @@ export const leftOptions = [{
     check: false,
     show: true,
     children: [{
-        name: "街道",
-        id: "street",
-        isImg: true,
-        isLegend: false,
-        url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/cs_grid/MapServer",
-        sublayers: "0",
-        check: true
-    }, {
-        name: "社区",
-        id: "community",
-        isLegend: false,
-        url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/cs_grid/MapServer",
-        sublayers: "1",
-        check: false
-    }, 
-    // {
-    //     name: "网格",
-    //     id: "grid",
-    //     isLegend: false,
-    //     url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/cs_grid/MapServer",
-    //     sublayers: "2",
-    //     check: false
-    // }, {
-    //     name: "小区、大厦",
-    //     id: "building",
-    //     isImg: true,
-    //     isLegend: false,
-    //     url: "http://172.20.89.7:6082/arcgis/rest/services/lucheng/fangkong/MapServer",
-    //     sublayers: "14",
-    //     check: false
-    // }
-]
+            name: "街道",
+            id: "street",
+            isImg: true,
+            isLegend: false,
+            url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/cs_grid/MapServer",
+            sublayers: "0",
+            check: true
+        }, {
+            name: "社区",
+            id: "community",
+            isLegend: false,
+            url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/cs_grid/MapServer",
+            sublayers: "1",
+            check: false
+        },
+        // {
+        //     name: "网格",
+        //     id: "grid",
+        //     isLegend: false,
+        //     url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/cs_grid/MapServer",
+        //     sublayers: "2",
+        //     check: false
+        // }, {
+        //     name: "小区、大厦",
+        //     id: "building",
+        //     isImg: true,
+        //     isLegend: false,
+        //     url: "http://172.20.89.7:6082/arcgis/rest/services/lucheng/fangkong/MapServer",
+        //     sublayers: "14",
+        //     check: false
+        // }
+    ]
 }]
