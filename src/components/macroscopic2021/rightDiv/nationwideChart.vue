@@ -1,6 +1,6 @@
 <template>
   <div class="nationwide-chart">
-    <span class="chart-title">{{`新冠肺炎每日疫情（截至${qgsjList.deadlineTime}）`}}</span>
+    <span class="chart-title">{{`新冠肺炎每日疫情（截至${qgsjList.deadlineTime}时）`}}</span>
     <div class="result-wrapper">
       <ul class="result-list" id="table">
         <li class="result-item header">

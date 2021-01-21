@@ -151,7 +151,7 @@ export default {
 <style lang="less" scoped>
 #topDateDiv {
   position: absolute;
-  top: 13vh;
+  top: 20vh;
   width: 100%;
   z-index: 20;
 
