@@ -2,12 +2,14 @@
   <div class="chart4">
     <!-- <img src="@/components/common/image/rightDiv/chart2.png" /> -->
     <span class="chart-title">鹿城区重点人员管控</span>
-    <div style="height:20vh" id="barChart4"></div>
+    <div class="chartTitle">2021年1月16日</div>
+    <div style="height:19vh" id="barChart4"></div>
+
     <select id="selectChart4" class="street-select">
       <option value="sjz">石家庄</option>
       <option value="xt">邢台</option>
       <option value="sh">绥化</option>
-      <!-- <option value="jw">境外</option> -->
+      <option value="jw">境外</option>
     </select>
   </div>
 </template>
@@ -35,35 +37,35 @@ export default {
       
       const data = {
           "石家庄":{
-            "排查数":543,
-            "居家隔离":87,
-            "集中隔离":49,
-            "日常健康观察":45,
+            "新增人数":8,
+            "居家隔离":4,
+            "集中隔离":4,
+            "日常健康观察":0,
           },
           "邢台":{
-            "排查数":10,
-            "居家隔离":10,
+            "新增人数":0,
+            "居家隔离":0,
             "集中隔离":0,
             "日常健康观察":0,
           },
           "绥化":{
-            "排查数":47,
-            "居家隔离":2,
-            "集中隔离":3,
-            "日常健康观察":4,
+            "新增人数":0,
+            "居家隔离":0,
+            "集中隔离":0,
+            "日常健康观察":0,
           },
-          // "境外":{
-          //   "排查数":831,
-          //   "居家隔离":13,
-          //   "集中隔离":27,
-          //   "日常健康观察":2,
-          // },
+          "境外":{
+            "新增人数":42,
+            "居家隔离":13,
+            "集中隔离":27,
+            "日常健康观察":2,
+          },
       }
       let list = {
-          "排查数":543,
-          "居家隔离":87,
-          "集中隔离":49,
-          "日常健康观察":45,
+          "新增人数":8,
+          "居家隔离":4,
+          "集中隔离":4,
+          "日常健康观察":0,
       }
       $("#selectChart4").change(function(){
         const str = $("#selectChart4 option:selected").text();
@@ -84,7 +86,7 @@ export default {
           {
             type: "category",
             data: [
-              "排查数",
+              "新增人数",
               "居家隔离",
               "集中隔离",
               "日常健康观察",
@@ -92,7 +94,7 @@ export default {
             axisLabel: {
               textStyle: {
                 fontFamily: "微软雅黑",
-                fontSize: 10,
+                fontSize: 12,
               },
               rotate: 0,
             },
@@ -135,7 +137,7 @@ export default {
           {
             name: "可用度",
             type: "bar",
-            data: [list['排查数'], list["居家隔离"], list["集中隔离"], list["日常健康观察"]],
+            data: [list['新增人数'], list["居家隔离"], list["集中隔离"], list["日常健康观察"]],
             barWidth: 30,
             itemStyle: {
               normal: {
@@ -171,7 +173,7 @@ export default {
           {
             type: "category",
             data: [
-              "排查数",
+              "新增人数",
               "居家隔离",
               "集中隔离",
               "日常健康观察",
@@ -179,7 +181,7 @@ export default {
             axisLabel: {
               textStyle: {
                 fontFamily: "微软雅黑",
-                fontSize: 10,
+                fontSize: 12,
               },
               rotate: 0,
             },
@@ -222,7 +224,7 @@ export default {
           {
             name: "可用度",
             type: "bar",
-            data: [list['排查数'], list["居家隔离"], list["集中隔离"], list["日常健康观察"]],
+            data: [list['新增人数'], list["居家隔离"], list["集中隔离"], list["日常健康观察"]],
             barWidth: 30,
             itemStyle: {
               normal: {
@@ -238,6 +240,7 @@ export default {
           },
         ],
       });
+
     },
   },
 };
@@ -262,6 +265,12 @@ export default {
     position: absolute;
     top: 5%;
     right: 5%;
+  }
+
+  .chartTitle{
+    position: relative;
+  text-align: left;
+    padding-left: 1vh;
   }
 
   .chart-title {

@@ -4,7 +4,7 @@
     <span class="chart-title">街道核酸检测点分布</span>
     <div id="barChart3">
       <table>
-        <tr v-for="(item, index) in chartData" :key="index">
+        <tr v-for="(item, index) in chartData" :key="index" style="height: 4vh;">
           <td class="axis-label">{{ item.name }}</td>
           <td class="series-bar">
             <div>
@@ -26,24 +26,60 @@ export default {
       barChart3: undefined,
       chartData: [
         {
+          name: "七都街道",
+          num: 7,
+        },
+        {
+          name: "山福镇",
+          num: 18,
+        },
+        {
           name: "仰义街道",
           num: 30,
+        },
+        {
+          name: "广化街道",
+          num: 51,
+        },
+        {
+          name: "丰门街道",
+          num: 54,
         },
         {
           name: "大南街道",
           num: 59,
         },
         {
-          name: "双屿街道",
-          num: 67,
+          name: "南郊街道",
+          num: 63,
         },
         {
-          name: "南郊街道",
-          num: 62,
+          name: "五马街道",
+          num: 70,
+        },
+        {
+          name: "双屿街道",
+          num: 74,
+        },
+        {
+          name: "藤桥镇",
+          num: 84,
+        },
+        {
+          name: "南汇街道",
+          num: 86,
         },
         {
           name: "蒲鞋市街道",
-          num: 172,
+          num: 96,
+        },
+        {
+          name: "松台街道",
+          num: 106,
+        },
+        {
+          name: "滨江街道",
+          num: 111,
         },
       ],
     };
@@ -73,7 +109,7 @@ export default {
             left: "40%",
             textStyle: {
               color: "#fff",
-              fontSize: 16,
+              fontSize: 12,
             },
           },
           {
@@ -83,7 +119,7 @@ export default {
             left: "40%",
             textStyle: {
               color: "#fff",
-              fontSize: 16,
+              fontSize: 12,
             },
           },
         ],
@@ -168,7 +204,7 @@ export default {
 
   #barChart3 {
     flex: 1;
-
+    overflow-y: auto;
     table {
       width: 100%;
       height: 100%;
@@ -221,5 +257,24 @@ export default {
       }
     }
   }
+
+
+  // 滚动条
+  *::-webkit-scrollbar {
+    width: 0.8vh;
+    height: 5px;
+  }
+  *::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    -webkit-box-shadow: inset 0vh 0.3vh 0.6vh 0vh #012623;
+    background: #073691;
+  }
+  *::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    // background: rgba(28, 54, 104, 0.9);
+    background: rgba(1, 41, 38, .3);
+  }
+
 }
 </style>

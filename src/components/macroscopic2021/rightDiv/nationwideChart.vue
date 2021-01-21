@@ -1,6 +1,7 @@
 <template>
   <div class="nationwide-chart">
-    <span class="chart-title">{{`新冠肺炎每日疫情（截至${qgsjList.deadlineTime}时）`}}</span>
+    <!-- <span class="chart-title">{{`新冠肺炎每日疫情（截至${qgsjList.deadlineTime}时）`}}</span> -->
+    <span class="chart-title">{{`新冠肺炎每日疫情（截至2021-01-16 24时）`}}</span>
     <div class="result-wrapper">
       <ul class="result-list" id="table">
         <li class="result-item header">
@@ -165,7 +166,7 @@ export default {
   .result-wrapper {
     margin-top: 1vh;
     width  : 100%;
-    height : 70vh;
+    height : 80vh;
     font-family: PingFang;
     color: #fff;
     .result-list {
@@ -223,13 +224,13 @@ export default {
         .indexList{
           flex: 6;
           background-color: rgba(9, 46, 79, 0.8);
-
         }
         .contentList {
           flex: 3;
           white-space:nowrap;
           overflow:hidden;
           text-overflow:ellipsis;
+          cursor:pointer
         }
 
       }

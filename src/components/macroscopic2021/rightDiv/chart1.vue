@@ -82,12 +82,12 @@ export default {
 
             data: [
               {
-                name: "启用隔离点 1",
-                value: 1,
+                name: "启用隔离点 2",
+                value: 2,
               },
               {
-                name: "备用隔离点 43",
-                value: 43,
+                name: "备用隔离点 42",
+                value: 42,
               },
               {
                 name: "爆满隔离点 0",
