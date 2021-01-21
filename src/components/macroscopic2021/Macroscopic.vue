@@ -198,15 +198,17 @@ export default {
   mounted() {
     !this.crjlList.length && this.fetchcrjlList();
     !this.ryxxList.length && this.fetchryxxList();
+    !this.qgsjList.length && this.fetchqgsjList();
   },
   computed: {
     ...mapState({
       crjlList: (state) => state.crjlList,
       ryxxList: (state) => state.ryxxList,
+      qgsjList: (state) => state.qgsjList,
     }),
   },
   methods: {
-    ...mapActions(["fetchcrjlList", "fetchryxxList"]),
+    ...mapActions(["fetchcrjlList", "fetchryxxList","fetchqgsjList"]),
     toggle() {
       this.icon_show_left = !this.icon_show_left;
       this.moveLeft = !this.icon_show_left ? "360" : "20";

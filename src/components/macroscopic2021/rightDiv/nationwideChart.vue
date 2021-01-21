@@ -1,22 +1,80 @@
 <template>
   <div class="nationwide-chart">
-    <span class="chart-title">全国疫情中高风险地区地图</span>
-    <div class="chart-list">
-      <div class="chart-item">
-        <img src="@/components/common/image/nationwide/1.png" />
-      </div>
-      <div class="chart-item">
-        <img src="@/components/common/image/nationwide/2.png" />
-      </div>
-      <div class="chart-item">
-        <img src="@/components/common/image/nationwide/3.png" />
-      </div>
+    <span class="chart-title">{{`新冠肺炎每日疫情（截至${qgsjList.deadlineTime}）`}}</span>
+    <div class="result-wrapper">
+      <ul class="result-list" id="table">
+        <li class="result-item header">
+          <span class="index">项目</span>
+          <span class="content">全国</span>
+          <span class="content">浙江</span>
+          <span class="content">温州</span>
+          <span class="last">鹿城</span>
+        </li>
+        <li
+          class="result-data "
+          v-for="(item, index) in qgsjList.covidDayReportDetailList"
+          :key="index"
+          :id="index"
+        >
+
+            <span class="indexList ">{{item.projectName}}</span>
+            <span class="contentList" @click="wholeCountryClick(item.wholeCountryRemark,index)" >{{
+              item.wholeCountry
+            }}</span>
+            <span class="contentList" @click="zhejiangClick(item.zhejiangRemark,index)">{{
+              item.zhejiang
+            }}</span>
+            <span class="contentList" @click="wenzhouClick(item.wenzhouRemark,index)">{{
+              item.wenzhou
+            }}</span>
+            <span class="contentList" @click="luchengClick(item.luchengRemark,index)">{{
+              item.lucheng
+            }}</span>
+
+
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapState} from "vuex";
+export default {
+  computed: {
+    ...mapState({
+      qgsjList: state => state.qgsjList,
+    })
+  },
+  methods:{
+
+    wholeCountryClick(wholeCountryRemark,index){
+      // debugger
+      $(".new-li").remove();
+      if(wholeCountryRemark){
+        $(`#${index}`).after(`<li class="new-li">${wholeCountryRemark}</li>`);
+      }
+    },
+    zhejiangClick(zhejiangRemark,index){
+      $(".new-li").remove();
+      if(zhejiangRemark){
+        $(`#${index}`).after(`<li class="new-li">${zhejiangRemark}</li>`);
+      }
+    },
+    wenzhouClick(wenzhouRemark,index){
+      $(".new-li").remove();
+      if(wenzhouRemark){
+        $(`#${index}`).after(`<li class="new-li">${wenzhouRemark}</li>`);
+      }
+    },
+    luchengClick(luchengRemark,index){
+      $(".new-li").remove();
+      if(luchengRemark){
+        $(`#${index}`).after(`<li class="new-li">${luchengRemark}</li>`);
+      }
+    },
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -29,8 +87,9 @@ export default {};
   .chart-title {
     display: block;
     text-align: left;
-    font-size: 18px;
+    font-size: 2vh;
     padding: 20px;
+    font-family: "PingFang SC";
   }
 
   .chart-list {
@@ -52,5 +111,115 @@ export default {};
       }
     }
   }
+
+  .result-wrapper {
+    margin-top: 1vh;
+    width  : 100%;
+    height : 70vh;
+    font-family: PingFang;
+    color: #fff;
+    .result-list {
+      height    : 100%;
+      overflow-y: auto;
+      padding-left: 0.5vh;
+      padding-right: 0.1vh;
+      .result-item {
+        display        : flex;
+        justify-content: space-between;
+        align-items    : center;
+        padding        : 0.5vh 0 0.5vh 0vh;
+        line-height: 4.5vh;
+        font-size: 1.2vh;
+        height: 3.5vh;
+        font-family: "PingFang SC";
+        color: #FAFAFA;
+        .index {
+          flex: 6;
+        }
+        .last {
+          flex: 3;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          // border-right: 1px solid #F5F5F5;
+        }
+        .content {
+          flex: 3;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          // height: 100%;
+          border-right: 1px solid #F5F5F5;
+        }
+        &.header {
+          font-size: 1.6vh;
+          height: 3.5vh;
+          font-family: "PingFang SC";
+          color: #FAFAFA;
+          background:#092E4F;
+        }
+      }
+      .result-data {
+        display        : flex;
+        justify-content: space-between;
+        align-items    : center;
+        padding        : 0.1vh 0 0.1vh 0vh;
+        line-height: 3.8vh;
+        font-size: 1.3vh;
+        height: 3.5vh;
+        font-family: "PingFang SC";
+        color: #FAFAFA;
+
+        .indexList{
+          flex: 6;
+          background-color: rgba(9, 46, 79, 0.8);
+
+        }
+        .contentList {
+          flex: 3;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+        }
+
+      }
+      // li:nth-child(odd) {
+      //   // background:#3671BB;
+      // }
+      li:nth-child(even) {
+        background: rgba(9, 46, 79, 0.3);
+      }
+    }
+  }
+
+  .new-li{
+    background-color: rgba(9, 46, 79, 0.8);
+  }
+
+  // 滚动条
+  *::-webkit-scrollbar {
+    width: 0.8vh;
+    height: 5px;
+  }
+  *::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    -webkit-box-shadow: inset 0vh 0.3vh 0.6vh 0vh #012623;
+    background: #073691;
+  }
+  *::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    // background: rgba(28, 54, 104, 0.9);
+    background: rgba(1, 41, 38, .3);
+  }
+
+}
+/deep/ .new-li{
+  background-color: rgba(9, 46, 79, 0.8);
+  font-size: 1.4vh;
+  font-family: "PingFang SC";
+  color: #FAFAFA;
+  line-height: 3.8vh;
+  height: 3.5vh;
 }
 </style>

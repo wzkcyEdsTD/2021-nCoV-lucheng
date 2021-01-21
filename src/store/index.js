@@ -10,6 +10,7 @@ import {
   lc_zdzbsj,
   lc_zdfasj
 } from "@/api/beans/fetch";
+import {gjsj} from "@/api/beans/country"
 export default new Vuex.Store({
   state: {
     // 出入记录
@@ -23,7 +24,9 @@ export default new Vuex.Store({
     // 做地专班数据
     zdzbList: [],
     // 做地方案数据
-    zdfaList: []
+    zdfaList: [],
+    //全国数据
+    qgsjList: []
   },
   mutations: {
     updatecrjlList(state, val) {
@@ -43,6 +46,10 @@ export default new Vuex.Store({
     },
     updatezdfaList(state, val) {
       state.zdfaList = val;
+    },
+    updateqgsjList(state, val){
+      // debugger
+      state.qgsjList = val;
     },
   },
   actions: {
@@ -99,6 +106,14 @@ export default new Vuex.Store({
         data
       } = await lc_zdfasj();
       commit('updatezdfaList', data)
-    }
+    },
+    async fetchqgsjList({
+      state,
+      commit
+    }, option) {
+      const data = await gjsj();
+      // debugger
+      commit('updateqgsjList', data)
+    },
   }
 });

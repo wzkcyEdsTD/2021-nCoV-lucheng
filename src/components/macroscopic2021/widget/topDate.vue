@@ -11,15 +11,15 @@
         </div>
         <div class="line">
           <div class="text">现有确诊 </div>
-          <div class="number">2031</div>
+          <div class="number">{{xyqzList.wholeCountry}}</div>
         </div>
         <div class="line">
           <div class="text">新增确诊 </div>
-          <div class="number">+118</div>
+          <div class="number">+{{addList.wholeCountry}}</div>
         </div>
         <div class="line">
           <div class="text">累计确诊 </div>
-          <div class="number">98801</div>
+          <div class="number">{{ljqzList.wholeCountry}}</div>
         </div>
       </li>
       <li>
@@ -32,15 +32,15 @@
         </div>
         <div class="line">
           <div class="text">现有确诊 </div>
-          <div class="number">12</div>
+          <div class="number">{{xyqzList.zhejiang}}</div>
         </div>
         <div class="line">
           <div class="text">新增确诊 </div>
-          <div class="number">+2</div>
+          <div class="number">+{{addList.zhejiang}}</div>
         </div>
         <div class="line">
           <div class="text">累计确诊 </div>
-          <div class="number">1311</div>
+          <div class="number">{{ljqzList.zhejiang}}</div>
         </div>
       </li>
       <li>
@@ -53,15 +53,15 @@
         </div>
         <div class="line">
           <div class="text">现有确诊 </div>
-          <div class="number">0</div>
+          <div class="number">{{xyqzList.wenzhou}}</div>
         </div>
         <div class="line">
           <div class="text">新增确诊 </div>
-          <div class="number">+0</div>
+          <div class="number">+{{addList.wenzhou}}</div>
         </div>
         <div class="line">
           <div class="text">累计确诊 </div>
-          <div class="number">513</div>
+          <div class="number">{{ljqzList.wenzhou}}</div>
         </div>
       </li>
       <li>
@@ -74,15 +74,15 @@
         </div>
         <div class="line">
           <div class="text">现有确诊 </div>
-          <div class="number">0</div>
+          <div class="number">{{xyqzList.lucheng}}</div>
         </div>
         <div class="line">
           <div class="text">新增确诊 </div>
-          <div class="number">+0</div>
+          <div class="number">+{{addList.lucheng}}</div>
         </div>
         <div class="line">
           <div class="text">累计确诊 </div>
-          <div class="number">3</div>
+          <div class="number">{{ljqzList.lucheng}}</div>
         </div>
       </li>
     </ul>
@@ -91,7 +91,61 @@
 </template>
 
 <script>
-export default {};
+import { mapState} from "vuex";
+export default {
+ data() {
+    return {
+
+    };
+  },
+  computed: {
+    ...mapState({
+      qgsjList: state => state.qgsjList,
+    }),
+    xyqzList() {
+      let result = {};
+      let alldata = [];
+      alldata =  this.qgsjList.covidDayReportDetailList;
+      alldata.forEach(item => {
+        if(item.projectName && item.projectName.indexOf("现有确诊") != -1) {
+          if(item.projectName.indexOf("境外") == -1){
+            result = item
+          }
+        }
+      });
+      return result
+    },
+    ljqzList() {
+      let result = {};
+      let alldata = [];
+      alldata =  this.qgsjList.covidDayReportDetailList;
+      alldata.forEach(item => {
+        if(item.projectName && item.projectName.indexOf("累计确诊") != -1) {
+          if(item.projectName.indexOf("境外") == -1){
+            result = item
+          }
+        }
+      });
+      return result
+    },
+    addList() {
+      let result = {};
+      let alldata = [];
+      alldata =  this.qgsjList.covidDayReportDetailList;
+      alldata.forEach(item => {
+        if(item.projectName && item.projectName.indexOf("新增确诊") != -1) {
+          if(item.projectName.indexOf("境外") == -1){
+            if(item.projectName.indexOf("本土") == -1){
+              result = item
+            }
+
+          }
+        }
+      });
+      return result
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -136,7 +190,7 @@ export default {};
       align-items: center;
       justify-content:center; 
       .text{
-        font-family: "pingFang SC";
+        font-family: "PingFang SC";
         font-size: 1.6vh;
         color: #FFFFFF;
         padding-left: 5%;
