@@ -11,10 +11,17 @@
       />
     </div>
     <div class="nationwide" v-if="nationwideShow">
+<<<<<<< HEAD
       <topDate/>
       <img src="@/components/common/image/全国图例.png" class="legend">
       <iframe id="iframe-country" src="http://www.lubulai.com/" frameborder="0"></iframe>
 
+=======
+      <img src="@/components/common/image/load.gif" class="nation-load"  />
+      <topDate />
+      <img src="@/components/common/image/全国图例.png" class="legend" />
+      <iframe src="http://www.lubulai.com/" frameborder="0"></iframe>
+>>>>>>> b5e7671d1c24e0a1721f5f5879e370ddd9a29218
     </div>
     <div class="Com_container">
       <div
@@ -213,7 +220,7 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(["fetchcrjlList", "fetchryxxList","fetchqgsjList"]),
+    ...mapActions(["fetchcrjlList", "fetchryxxList", "fetchqgsjList"]),
     toggle() {
       this.icon_show_left = !this.icon_show_left;
       this.moveLeft = !this.icon_show_left ? "360" : "20";
