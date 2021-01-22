@@ -17,20 +17,31 @@
         bottom: -16vh;
         left: 0;
         right: 0;
+        background: linear-gradient(180deg,
+                rgba(0, 63, 189, 0.6) 0%,
+                rgba(5, 53, 129, 0.6) 100%);
         z-index: 29;
+
+        .nation-load {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
 
         iframe {
             width: 100%;
             height: 100%;
         }
-        
-        .legend{
+
+        .legend {
             bottom: 18vh;
             left: 40vh;
             width: 15vh;
             height: 15vh;
             position: absolute;
-          }
+        }
     }
 
     .Com_container {
