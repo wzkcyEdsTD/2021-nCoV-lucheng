@@ -459,9 +459,7 @@ export default {
             });
             //  优先级置顶
             that.map.add(imgLayer, 1);
-            that.legend.layerInfos.push({
-              layer: imgLayer,
-            });
+            that.legend.layerInfos.push({});
             resolve(true);
           });
         });
@@ -497,9 +495,7 @@ export default {
               });
               //  优先级置顶
               that.map.add(vecLayer, 1);
-              that.legend.layerInfos.push({
-                layer: vecLayer,
-              });
+              that.legend.layerInfos.push({});
               resolve(true);
             }
           );
