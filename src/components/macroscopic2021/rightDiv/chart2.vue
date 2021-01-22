@@ -218,6 +218,15 @@ export default {
                 color: "#00bbff",
                 // barBorderRadius: 50,
                 borderWidth: 0,
+                label: {
+                    show: true,		//开启显示
+                    position: 'top',	//在上方显示
+                    textStyle: {	    //数值样式
+                        color: '#fff',
+                        fontSize: 12
+                    }
+                }
+
               },
             },
           },
@@ -248,6 +257,13 @@ export default {
     position: absolute;
     top: 5%;
     right: 5%;
+    background-color: #2c599e;
+    color: #fff;
+    border-color: #fff;
+    border-radius: 5px;
+    height: 2.6vh;
+    width: 8.5vh;
+    font-size: 14px;
   }
 
   .chart-title {

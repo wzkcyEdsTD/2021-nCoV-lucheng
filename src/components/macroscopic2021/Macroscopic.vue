@@ -13,7 +13,7 @@
     <div class="nationwide" v-if="nationwideShow">
       <topDate/>
       <img src="@/components/common/image/全国图例.png" class="legend">
-      <iframe src="http://www.lubulai.com/" frameborder="0"></iframe>
+      <iframe id="iframe-country" src="http://www.lubulai.com/" frameborder="0"></iframe>
 
     </div>
     <div class="Com_container">
@@ -203,6 +203,7 @@ export default {
     !this.crjlList.length && this.fetchcrjlList();
     !this.ryxxList.length && this.fetchryxxList();
     !this.qgsjList.length && this.fetchqgsjList();
+    this.isOnLoad();
   },
   computed: {
     ...mapState({
@@ -236,6 +237,20 @@ export default {
         $("body .esri-ui-bottom-left").css({ left: "20px" });
       }
     },
+    isOnLoad(){
+      var that = this
+      // const iframe = document.getElementById('iframe-country')
+      // $(iframe).load(function(){                             //  等iframe加载完毕  
+      //   console.log("123")
+      // });
+      
+      const frm = document.getElementById("iframe-country");
+      $(frm).onload = function(){
+        console.log("加载完成")
+      };
+
+    },
+
   },
 };
 </script>

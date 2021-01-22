@@ -3,7 +3,7 @@
     <!-- <img src="@/components/common/image/rightDiv/chart2.png" /> -->
     <span class="chart-title">鹿城区重点人员管控</span>
     <div class="chartTitle">2021年1月16日</div>
-    <div style="height:19vh" id="barChart4"></div>
+    <div style="height:18vh;" id="barChart4"></div>
 
     <select id="selectChart4" class="street-select">
       <option value="sjz">石家庄</option>
@@ -163,7 +163,7 @@ export default {
           left: "2%",
           right: "3%",
           bottom: "0%",
-          top: "10%",
+          top: "15%",
           containLabel: true,
         },
         legend: {
@@ -235,6 +235,15 @@ export default {
                     return colorList[params.dataIndex]
                 },
                 borderWidth: 0,
+                label: {
+                    show: true,		//开启显示
+                    position: 'top',	//在上方显示
+                    textStyle: {	    //数值样式
+                        color: '#fff',
+                        fontSize: 12
+                    }
+                }
+
               },
             },
           },
@@ -265,12 +274,21 @@ export default {
     position: absolute;
     top: 5%;
     right: 5%;
+    background-color: #2c599e;
+    color: #fff;
+    border-color: #fff;
+    border-radius: 5px;
+    height: 2.6vh;
+    width: 8.5vh;
+    font-size: 14px;
   }
 
   .chartTitle{
+    font-size: 1.7vh;
     position: relative;
-  text-align: left;
+    text-align: left;
     padding-left: 1vh;
+    top: -0.5vh;
   }
 
   .chart-title {
