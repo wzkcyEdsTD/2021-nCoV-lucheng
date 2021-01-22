@@ -139,7 +139,7 @@ function getTableAxiosInstance() {
   const instance = axios.create();
   // instance.defaults.baseURL =
   //   window.env == "dev" ? "/api" : `${WRT_config.serverCompatible}/api`;
-  instance.defaults.baseURL = `http://172.20.83.101:8080`;
+  instance.defaults.baseURL = `http://172.20.89.89:8080/api`;
   instance.defaults.headers.post["Content-Type"] = "multipart/form-data";
   instance.interceptors.request.use(
     config => {

@@ -50,10 +50,6 @@ export default {
     })
   },
   methods:{
-    
-    close(){
-      $(".new-li").remove();
-    },
 
     wholeCountryClick(wholeCountryRemark,index){
       // debugger

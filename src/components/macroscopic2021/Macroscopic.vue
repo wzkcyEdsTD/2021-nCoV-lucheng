@@ -11,17 +11,11 @@
       />
     </div>
     <div class="nationwide" v-if="nationwideShow">
-<<<<<<< HEAD
-      <topDate/>
-      <img src="@/components/common/image/全国图例.png" class="legend">
-      <iframe id="iframe-country" src="http://www.lubulai.com/" frameborder="0"></iframe>
-
-=======
       <img src="@/components/common/image/load.gif" class="nation-load"  />
       <topDate />
       <img src="@/components/common/image/全国图例.png" class="legend" />
+      <div class="mapSource">地图来源于:http://www.lubulai.com/</div>
       <iframe src="http://www.lubulai.com/" frameborder="0"></iframe>
->>>>>>> b5e7671d1c24e0a1721f5f5879e370ddd9a29218
     </div>
     <div class="Com_container">
       <div
@@ -210,7 +204,6 @@ export default {
     !this.crjlList.length && this.fetchcrjlList();
     !this.ryxxList.length && this.fetchryxxList();
     !this.qgsjList.length && this.fetchqgsjList();
-    this.isOnLoad();
   },
   computed: {
     ...mapState({
@@ -243,19 +236,6 @@ export default {
       } else {
         $("body .esri-ui-bottom-left").css({ left: "20px" });
       }
-    },
-    isOnLoad(){
-      var that = this
-      // const iframe = document.getElementById('iframe-country')
-      // $(iframe).load(function(){                             //  等iframe加载完毕  
-      //   console.log("123")
-      // });
-      
-      const frm = document.getElementById("iframe-country");
-      $(frm).onload = function(){
-        console.log("加载完成")
-      };
-
     },
 
   },
