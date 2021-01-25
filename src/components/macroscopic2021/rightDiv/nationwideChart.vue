@@ -1,6 +1,6 @@
 <template>
   <div class="nationwide-chart">
-    <span class="chart-title">{{`新冠肺炎每日疫情（截至${qgsjList.deadlineTime}时）`}}</span>
+    <span class="chart-title">{{`新冠肺炎每日疫情（截至${deadlineTime}时）`}}</span>
     <!-- <span class="chart-title">{{`新冠肺炎每日疫情（截至2021-01-16 24时）`}}</span> -->
     <div class="result-wrapper">
       <ul class="result-list" id="table">
@@ -47,10 +47,19 @@ export default {
   computed: {
     ...mapState({
       qgsjList: state => state.qgsjList,
-    })
+    }),
+    deadlineTime(){
+      const time = `${this.qgsjList.deadlineTime}`;
+      const date = time.split(" ")[0]
+      let houre = time.split(" ")[1]
+      console.log(houre)
+      if(Number(houre) > 22){
+        houre = 24
+      }
+      return `${date} ${houre}`
+    },
   },
   methods:{
-
     wholeCountryClick(wholeCountryRemark,index){
       // debugger
       const that = this;
@@ -120,7 +129,7 @@ export default {
         $(`#${index}`).after(`<li class="new-li ">${luchengRemark}</li>`);
       }
     },
-  }
+  },
 };
 </script>
 
