@@ -3,42 +3,81 @@
     <div class="topic">
       <header>
         <span>地块清单</span>
-        <input type="text" v-model="word" placeholder="请输入..." @keyup.enter="filterItem()" />
+        <input
+          type="text"
+          v-model="word"
+          placeholder="请输入..."
+          @keyup.enter="filterItem()"
+        />
         <button @click="filterItem">搜索</button>
       </header>
       <div class="switch" v-if="dkType == 0">
-        <span :class="{active: tabIndex == 0}" @click="()=>{ tabIndex = 0 }">街道专题</span>
+        <span
+          :class="{ active: tabIndex == 0 }"
+          @click="
+            () => {
+              tabIndex = 0;
+            }
+          "
+          >街道专题</span
+        >
         <i>/</i>
-        <span :class="{active: tabIndex == 1}" @click="()=>{ tabIndex = 1 }">权属专题</span>
+        <span
+          :class="{ active: tabIndex == 1 }"
+          @click="
+            () => {
+              tabIndex = 1;
+            }
+          "
+          >权属专题</span
+        >
         <i>/</i>
-        <span :class="{active: tabIndex == 2}" @click="()=>{ tabIndex = 2 }">时限专题</span>
+        <span
+          :class="{ active: tabIndex == 2 }"
+          @click="
+            () => {
+              tabIndex = 2;
+            }
+          "
+          >时限专题</span
+        >
       </div>
       <div class="switch" v-else-if="dkType == 1">
         <span class="active">街道专题</span>
       </div>
       <div class="selectFrame no_select">
-        <div v-for="(item,index) in this.tree" :key="index">
-          <div @click="toggleTree(item.label,index)">
+        <div v-for="(item, index) in this.tree" :key="index">
+          <div @click="toggleTree(item.label, index)">
             {{ item.label }} ({{ item.children.length }}宗)
             <div>
-              <i :class="`iconfont ${item.show?`iconRectangleCopy7`:`iconRectangleCopy4`}`"></i>
-              <span v-if="tabIndex == 0 && dkType == 0" @click="switchChar(item.label)">分布图</span>
+              <i
+                :class="`iconfont ${
+                  item.show ? `iconRectangleCopy7` : `iconRectangleCopy4`
+                }`"
+              ></i>
+              <span
+                v-if="tabIndex == 0 && dkType == 0"
+                @click="switchChar(item.label)"
+                >分布图</span
+              >
             </div>
           </div>
           <ul v-show="item.show">
             <li
-              v-for="(oitem,oindex) in item.children"
+              v-for="(oitem, oindex) in item.children"
               :key="oindex"
-              @click="ShowResult(oitem,item)"
+              @click="ShowResult(oitem, item)"
             >
-              <p
-                :style="{ width: dkType == 0 ? 60 + '%' : 100 + '%' }"
-              >{{ ++oindex }}. {{ oitem.name }}</p>
+              <p :style="{ width: dkType == 0 ? 60 + '%' : 100 + '%' }">
+                {{ ++oindex }}. {{ oitem.name }}
+              </p>
               <div v-if="dkType == 0">
-                <span
-                  :style="{ color: typeHash[oitem.yt].color }"
-                >{{ typeHash[oitem.yt].shortname }}</span>
-                <span :style="{ color: dkColorHash[oitem.type] }">{{ oitem.type }}</span>
+                <span :style="{ color: typeHash[oitem.yt].color }">{{
+                  typeHash[oitem.yt].shortname
+                }}</span>
+                <span :style="{ color: dkColorHash[oitem.type] }">{{
+                  oitem.type
+                }}</span>
               </div>
             </li>
           </ul>
@@ -69,7 +108,7 @@ export default {
       qsOptions: [],
       sxOptions: [],
 
-      cgOptions: []
+      cgOptions: [],
     };
   },
   created() {
@@ -78,18 +117,19 @@ export default {
       OPTION
     ).then(async ([QueryTask, Query]) => {
       const queryTask = new QueryTask({
-        url: `http://172.20.83.215:6080/arcgis/rest/services/WZZD/WZZDDK/MapServer/0`
+        url: `http://10.36.133.184/arcgis/rest/services/WZZD/WZZDDK/MapServer/0`,
       });
       const query = new Query();
       query.outFields = ["*"];
       query.returnGeometry = true;
-      query.where = `ssqy = '鹿城区' and ssjd <> '蒲州街道'`;
+      query.where = `ssqy = '鹿城区'`;
       const { fields, features } = await queryTask.execute(query);
+      console.log(features)
       const fieldAliases = {};
-      fields.map(item => {
+      fields.map((item) => {
         fieldAliases[item.name] = item.alias;
       });
-      const list = features.map(item => {
+      const list = features.map((item) => {
         item.fieldAliases = fieldAliases;
         return item;
       });
@@ -116,7 +156,7 @@ export default {
           ssjd,
           tdyt,
           zrdw,
-          zdwcsx
+          zdwcsx,
         } = attributes;
         if (!ssjd) return false;
         if (!jdObj[ssjd]) {
@@ -125,7 +165,7 @@ export default {
             children: [],
             tabIndex: 0,
             check: false,
-            show: false
+            show: false,
           };
         }
         jdObj[ssjd].children.push({
@@ -135,7 +175,7 @@ export default {
           yt: tdyt && tdyt.replace("用地", ""),
           attributes,
           geometry,
-          fieldAliases
+          fieldAliases,
         });
 
         if (!zrdw) return false;
@@ -146,7 +186,7 @@ export default {
             children: [],
             tabIndex: 0,
             check: false,
-            show: false
+            show: false,
           };
         }
 
@@ -157,17 +197,14 @@ export default {
           yt: tdyt && tdyt.replace("用地", ""),
           attributes,
           geometry,
-          fieldAliases
+          fieldAliases,
         });
 
         if (!zdwcsx) return false;
         let wcsx = null;
         if (zdwcsx != null) {
           wcsx = zdwcsx.split(" ")[0];
-          wcsx = wcsx
-            .replace("年", "-")
-            .replace("月", "-")
-            .replace("日", "");
+          wcsx = wcsx.replace("年", "-").replace("月", "-").replace("日", "");
         }
 
         const [wcsx_y, wcsx_m] = wcsx == null ? [null, null] : wcsx.split("-");
@@ -181,7 +218,7 @@ export default {
             label: fixzdwcsx,
             children: [],
             tabIndex: 0,
-            show: false
+            show: false,
           };
         }
 
@@ -192,7 +229,7 @@ export default {
           yt: tdyt && tdyt.replace("用地", ""),
           attributes,
           geometry,
-          fieldAliases
+          fieldAliases,
         });
       });
 
@@ -200,7 +237,7 @@ export default {
         jdArr.push(jdObj[k]);
       }
 
-      jdArr.map(item => {
+      jdArr.map((item) => {
         if (item.children.length) {
           item.children.sort((a, b) => {
             return a.name > b.name ? 1 : -1;
@@ -218,7 +255,7 @@ export default {
         .sort((a, b) => {
           return ~b.label.indexOf("集团") ? 1 : -1;
         })
-        .map(item => {
+        .map((item) => {
           if (item.children.length) {
             item.children.sort((a, b) => {
               return a.name > b.name ? 1 : -1;
@@ -259,7 +296,7 @@ export default {
 
           return date_a - date_b;
         })
-        .map(item => {
+        .map((item) => {
           if (item.children.length) {
             item.children.sort((a, b) => {
               return a.name > b.name ? 1 : -1;
@@ -317,11 +354,11 @@ export default {
       const sObj = {};
       const sArr = [];
 
-      opt.map(item => {
+      opt.map((item) => {
         const childList = [];
 
         item.children &&
-          item.children.map(o => {
+          item.children.map((o) => {
             if (!Array.isArray(fields)) {
               if (
                 o.attributes[fields] &&
@@ -345,7 +382,7 @@ export default {
             label: item.label,
             children: childList,
             tabIndex: 0,
-            show: false
+            show: false,
           };
         }
       });
@@ -405,7 +442,7 @@ export default {
       // 视角重新定位
       this.$parent.$refs.monitorArcgis.view.goTo({
         center: [120.67819448808013, 28.039695289562555],
-        zoom: 13
+        zoom: 13,
       });
 
       this.text = "";
@@ -425,7 +462,7 @@ export default {
             OPTION
           ).then(async ([QueryTask, Query]) => {
             const queryTask = new QueryTask({
-              url: `http://172.20.89.7:6082/arcgis/rest/services/lucheng/CZDK/MapServer/0`
+              url: `http://172.20.89.7:6082/arcgis/rest/services/lucheng/CZDK/MapServer/0`,
             });
             const query = new Query();
             query.outFields = ["*"];
@@ -433,10 +470,10 @@ export default {
             query.where = `1 = 1`;
             const { fields, features } = await queryTask.execute(query);
             const fieldAliases = {};
-            fields.map(item => {
+            fields.map((item) => {
               fieldAliases[item.name] = item.alias;
             });
-            const list = features.map(item => {
+            const list = features.map((item) => {
               item.fieldAliases = fieldAliases;
               return item;
             });
@@ -454,7 +491,7 @@ export default {
                   label: jd,
                   children: [],
                   check: false,
-                  show: false
+                  show: false,
                 };
               }
               cgObj[jd].children.push({
@@ -462,7 +499,7 @@ export default {
                 name: Expr1,
                 attributes,
                 geometry,
-                fieldAliases
+                fieldAliases,
               });
             });
 
@@ -470,7 +507,7 @@ export default {
               cgArr.push(cgObj[k]);
             }
 
-            cgArr.map(item => {
+            cgArr.map((item) => {
               if (item.children.length) {
                 item.children.sort((a, b) => {
                   return a.name > b.name ? 1 : -1;
@@ -482,7 +519,7 @@ export default {
           });
         }
       }
-    }
+    },
   },
   watch: {
     tabIndex() {
@@ -494,8 +531,8 @@ export default {
           : this.sxOptions;
 
       this.filterItem();
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="less">

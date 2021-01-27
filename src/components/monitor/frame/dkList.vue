@@ -39,7 +39,7 @@ export default {
       OPTION
     ).then(async ([QueryTask, Query]) => {
       const queryTask = new QueryTask({
-        url: `http://172.20.83.215:6080/arcgis/rest/services/WZZD/WZZDDK/MapServer/0`
+        url: `http://10.36.133.184/arcgis/rest/services/WZZD/WZZDDK/MapServer/0`
       });
       const query = new Query();
       query.outFields = ["*"];

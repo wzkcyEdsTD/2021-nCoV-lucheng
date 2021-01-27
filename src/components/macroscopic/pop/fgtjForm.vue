@@ -2,7 +2,14 @@
   <div id="fgtjform" v-if="list.length">
     <div class="head">
       <div class="title">{{ title }}</div>
-      <a @click="()=>{ list = [] }">×</a>
+      <a
+        @click="
+          () => {
+            list = [];
+          }
+        "
+        >×</a
+      >
     </div>
     <div class="content ctn2">
       <div class="chart" id="chart0"></div>
@@ -28,7 +35,7 @@ export default {
     return {
       title: "",
       list: [],
-      sArr: []
+      sArr: [],
     };
   },
   components: {},
@@ -42,7 +49,7 @@ export default {
       OPTION
     ).then(async ([QueryTask, Query]) => {
       const queryTask = new QueryTask({
-        url: `http://172.20.89.7:6082/arcgis/rest/services/lucheng/fgfc/MapServer/0`
+        url: `http://172.20.89.7:6082/arcgis/rest/services/lucheng/fgfc/MapServer/0`,
       });
       const query = new Query();
       query.outFields = ["*"];
@@ -62,7 +69,7 @@ export default {
           YJFGSGDWRYSL,
           YJFGHSGDWHBYGSL,
           YJFGHJLDWRYSL,
-          YJFGHJLDWHBYGSL
+          YJFGHJLDWHBYGSL,
         } = attributes;
         if (!JD) return false;
         if (!sObj[JD]) {
@@ -73,7 +80,7 @@ export default {
             YJFGSGDWRYSL: 0,
             YJFGHSGDWHBYGSL: 0,
             YJFGHJLDWRYSL: 0,
-            YJFGHJLDWHBYGSL: 0
+            YJFGHJLDWHBYGSL: 0,
           };
         }
         sObj[JD].YJFGHJSDWRYSL += YJFGHJSDWRYSL || 0;
@@ -156,18 +163,18 @@ export default {
         { field: "YJFGHJSDWRYSL", label: "预计复工后建设单位人员数量" },
         {
           field: "YJFGHJSDWHBYGSL",
-          label: "预计复工后建设单位湖北籍员工数量"
+          label: "预计复工后建设单位湖北籍员工数量",
         },
         { field: "YJFGSGDWRYSL", label: "预计复工后施工单位人员数量" },
         {
           field: "YJFGHSGDWHBYGSL",
-          label: "预计复工后施工单位湖北籍员工数量"
+          label: "预计复工后施工单位湖北籍员工数量",
         },
         { field: "YJFGHJLDWRYSL", label: "预计复工后监理单位人员数量" },
         {
           field: "YJFGHJLDWHBYGSL",
-          label: "预计复工后监理单位湖北籍员工数量"
-        }
+          label: "预计复工后监理单位湖北籍员工数量",
+        },
       ];
 
       // 通用配置项
@@ -175,52 +182,52 @@ export default {
         title: {
           left: "20px",
           textStyle: {
-            color: "#fff"
-          }
+            color: "#fff",
+          },
         },
         grid: {
           bottom: "10%",
           left: "5%",
           right: "4%",
-          containLabel: true
+          containLabel: true,
         },
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
         },
         xAxis: {
           type: "category",
           boundaryGap: true,
           show: true,
           axisTick: {
-            show: false
+            show: false,
           },
           axisLabel: {
             fontSize: 15,
             color: "#FFF",
-            formatter: function(val) {
+            formatter: function (val) {
               return val.split("").join("\n");
-            }
+            },
           },
           axisLine: {
             lineStyle: {
-              color: "#FFF"
-            }
-          }
+              color: "#FFF",
+            },
+          },
         },
         yAxis: {
           type: "value",
           name: "",
           axisLine: {
             lineStyle: {
-              color: "#FFF"
-            }
+              color: "#FFF",
+            },
           },
           axisTick: {
-            show: false
+            show: false,
           },
           splitLine: {
-            show: false
-          }
+            show: false,
+          },
         },
         series: [
           {
@@ -234,14 +241,14 @@ export default {
                 show: true,
                 position: "top",
                 color: "#fff",
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             },
             itemStyle: {
-              color: "#f41e1e"
-            }
-          }
-        ]
+              color: "#f41e1e",
+            },
+          },
+        ],
       };
 
       list.map((item, index) => {
@@ -253,23 +260,25 @@ export default {
         option.title.text = `${item.label}`;
         option.xAxis.data = that.sArr
           .sort((a, b) => b[item.field] - a[item.field])
-          .map(_item => _item.Country);
+          .map((_item) => _item.Country);
 
-        option.series[0].data = that.sArr.map(_item => {
+        option.series[0].data = that.sArr.map((_item) => {
           return _item[item.field];
         });
 
+        console.log(that.sArr, option.series[0].data);
+
         chart.setOption(option);
       });
-    }
+    },
   },
   watch: {
     list(newV, oldV) {
       this.$nextTick(() => {
         newV.length && this.doChart();
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

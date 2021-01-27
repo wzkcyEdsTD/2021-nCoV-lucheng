@@ -155,7 +155,7 @@ export default {
             const dkImage = new MapImageLayer({
               url:
                 // "http://172.20.89.7:6082/arcgis/rest/services/lucheng/ZDDK/MapServer",
-                "http://172.20.83.215:6080/arcgis/rest/services/WZZD/WZZDDK/MapServer",
+                "http://10.36.133.184/arcgis/rest/services/WZZD/WZZDDK/MapServer",
               sublayers: [{ id: 0, definitionExpression: `ssqy = '鹿城区'` }],
               id: "dkImage",
               opacity: 1
@@ -190,7 +190,7 @@ export default {
         id: dkVal,
         url:
           // "http://172.20.89.7:6082/arcgis/rest/services/lucheng/ZDDK/MapServer",
-          "http://172.20.83.215:6080/arcgis/rest/services/WZZD/WZZDDK/MapServer/0"
+          "http://10.36.133.184/arcgis/rest/services/WZZD/WZZDDK/MapServer/0"
       };
 
       if (!list) return;
@@ -430,7 +430,7 @@ export default {
       const item = {
         id: "zddk",
         url:
-          "http://172.20.83.215:6080/arcgis/rest/services/WZZD/WZZDDK/MapServer",
+          "http://10.36.133.184/arcgis/rest/services/WZZD/WZZDDK/MapServer",
         sublayers: "0",
         definitionExpression: `ssqy = '鹿城区'`
       };

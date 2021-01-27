@@ -13,19 +13,19 @@
     </div>
     <el-table :data="elList" height="250" border>
       <el-table-column type="index" width="50"> </el-table-column>
-      <el-table-column prop="cs_name" label="名称"> </el-table-column>
+      <el-table-column prop="Name" label="名称"> </el-table-column>
       <el-table-column
-        prop="cun_charge_man"
-        label="社(村)负责人(联络方式)"
+        prop="LinkMan"
+        label="核酸检测点联系人"
         width="220"
       >
       </el-table-column>
-      <el-table-column prop="link_man" label="联系人(联络方式)" width="220">
+      <el-table-column prop="phoneNumber" label="核酸检测点联系方式" width="220">
       </el-table-column>
-      <el-table-column prop="information_register_people" label="信息登记员">
+      <el-table-column prop="xxdhr" label="信息登记员">
       </el-table-column>
-      <el-table-column prop="grid_people" label="网格员"></el-table-column>
-      <el-table-column prop="guide_people" label="引导员"> </el-table-column>
+      <el-table-column prop="wanggeyuan" label="网格员"></el-table-column>
+      <el-table-column prop="yindaoyuan" label="引导员"> </el-table-column>
     </el-table>
   </div>
 </template>
@@ -97,7 +97,7 @@ export default {
         OPTION
       ).then(async ([QueryTask, Query]) => {
         const queryTask = new QueryTask({
-          url: `http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/cs_grid/MapServer/5`,
+          url: `http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/GeiLiDianLuCheng/MapServer/1`,
         });
         const query = new Query();
         query.outFields = "*";
