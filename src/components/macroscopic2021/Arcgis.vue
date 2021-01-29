@@ -101,7 +101,15 @@ export default {
           : this.addFeatures(item, _id_);
 
         if (item.id == "isolatedPoint") {
-          ["isolatedPoint_2"].map((_id_) => {
+          ["isolatedPoint_2", "isolatedPoint_3"].map((_id_) => {
+            this.map &&
+              this.map.findLayerById(_id_) &&
+              (this.map.findLayerById(_id_).visible = true);
+          });
+        }
+
+        if (item.id == "detection") {
+          ["detection_2"].map((_id_) => {
             this.map &&
               this.map.findLayerById(_id_) &&
               (this.map.findLayerById(_id_).visible = true);
@@ -111,12 +119,22 @@ export default {
         // 缩放层级显示
         const zoom = this.view.zoom;
         if (zoom >= 15) {
-          ["isolatedPoint", "isolatedPoint_2", "detection"].map((_id) => {
+          [
+            "isolatedPoint",
+            "isolatedPoint_2",
+            "isolatedPoint_3",
+            "detection_2",
+          ].map((_id) => {
             this.map.findLayerById(_id) &&
               (this.map.findLayerById(_id).labelsVisible = true);
           });
         } else {
-          ["isolatedPoint", "isolatedPoint_2", "detection"].map((_id) => {
+          [
+            "isolatedPoint",
+            "isolatedPoint_2",
+            "isolatedPoint_3",
+            "detection_2",
+          ].map((_id) => {
             this.map.findLayerById(_id) &&
               (this.map.findLayerById(_id).labelsVisible = false);
           });
@@ -128,7 +146,16 @@ export default {
 
         // 隔离点
         if (item.id == "isolatedPoint") {
-          ["isolatedPoint_2"].map((_id_) => {
+          ["isolatedPoint_2", "isolatedPoint_3"].map((_id_) => {
+            this.map &&
+              this.map.findLayerById(_id_) &&
+              (this.map.findLayerById(_id_).visible = false);
+          });
+        }
+
+        // 核酸检测点
+        if (item.id == "detection") {
+          ["detection_2"].map((_id_) => {
             this.map &&
               this.map.findLayerById(_id_) &&
               (this.map.findLayerById(_id_).visible = false);
@@ -179,12 +206,22 @@ export default {
           // 缩放层级显示
           that.view.watch("zoom", (zoom) => {
             if (zoom >= 15) {
-              ["isolatedPoint", "isolatedPoint_2", "detection"].map((_id) => {
+              [
+                "isolatedPoint",
+                "isolatedPoint_2",
+                "isolatedPoint_3",
+                "detection_2",
+              ].map((_id) => {
                 that.map.findLayerById(_id) &&
                   (that.map.findLayerById(_id).labelsVisible = true);
               });
             } else {
-              ["isolatedPoint", "isolatedPoint_2", "detection"].map((_id) => {
+              [
+                "isolatedPoint",
+                "isolatedPoint_2",
+                "isolatedPoint_3",
+                "detection_2",
+              ].map((_id) => {
                 that.map.findLayerById(_id) &&
                   (that.map.findLayerById(_id).labelsVisible = false);
               });
@@ -592,17 +629,17 @@ export default {
 
           // 隔离点判断
           if (id == "isolatedPoint") {
-            option.definitionExpression = `State <> '已启用'`;
+            option.definitionExpression = `State = '已启用' and warming > 0.85`;
             item.icon &&
               (option.renderer = {
                 type: "simple",
                 symbol: {
                   type: "picture-marker",
-                  url: `${server}/icon/other/${item.icon2}.png`,
+                  url: `${server}/icon/other/${item.icon}.png`,
                   width: "34px",
                   height: "53px",
                 },
-                label: "备用隔离点",
+                label: "爆满隔离点",
               });
 
             const labelClass = {
@@ -630,13 +667,13 @@ export default {
             });
 
             option.id = "isolatedPoint_2";
-            option.definitionExpression = `State = '已启用'`;
+            option.definitionExpression = `State = '已启用' and warming <= 0.85`;
             item.icon2 &&
               (option.renderer = {
                 type: "simple",
                 symbol: {
                   type: "picture-marker",
-                  url: `${server}/icon/other/${item.icon}.png`,
+                  url: `${server}/icon/other/${item.icon2}.png`,
                   width: "34px",
                   height: "53px",
                 },
@@ -650,15 +687,104 @@ export default {
               layer: feature2,
             });
 
+            option.id = "isolatedPoint_3";
+            option.definitionExpression = `State <> '已启用'`;
+            item.icon2 &&
+              (option.renderer = {
+                type: "simple",
+                symbol: {
+                  type: "picture-marker",
+                  url: `${server}/icon/other/${item.icon3}.png`,
+                  width: "34px",
+                  height: "53px",
+                },
+                label: "备用隔离点",
+              });
+
+            const feature3 = new _layers_(option);
+            that.map.add(feature3, 20);
+            that.legend.layerInfos.push({
+              title: "",
+              layer: feature3,
+            });
+
             // 缩放层级显示
             const zoom = that.view.zoom;
             if (zoom >= 15) {
-              ["isolatedPoint", "isolatedPoint_2"].map((_id) => {
+              ["isolatedPoint", "isolatedPoint_2", "isolatedPoint_3"].map(
+                (_id) => {
+                  that.map.findLayerById(_id) &&
+                    (that.map.findLayerById(_id).labelsVisible = true);
+                }
+              );
+            } else {
+              ["isolatedPoint", "isolatedPoint_2", "isolatedPoint_3"].map(
+                (_id) => {
+                  that.map.findLayerById(_id) &&
+                    (that.map.findLayerById(_id).labelsVisible = false);
+                }
+              );
+            }
+          } else if (id == "detection") {
+            item.icon &&
+              (option.renderer = {
+                type: "simple",
+                symbol: {
+                  type: "picture-marker",
+                  url: `${server}/icon/other/${item.icon}.png`,
+                  width: "14px",
+                  height: "14px",
+                },
+                label: `${item.name}`.split(" ")[0],
+              });
+
+            const feature = new _layers_(option);
+            that.map.add(feature, 20);
+            that.legend.layerInfos.push({
+              title: "",
+              layer: feature,
+            });
+
+            option.id = "detection_2";
+            option.renderer = {
+              type: "simple",
+              symbol: {
+                type: "simple-marker",
+                size: 0,
+                color: "black",
+              },
+            };
+
+            option.labelingInfo = [
+              {
+                symbol: {
+                  type: "text",
+                  color: "green",
+                  font: {
+                    size: 12,
+                    weight: "bold",
+                  },
+                },
+                labelPlacement: "above-center",
+                labelExpressionInfo: {
+                  expression: "$feature.Name",
+                },
+              },
+            ];
+
+            const feature2 = new _layers_(option);
+            that.map.add(feature2, 20);
+            that.legend.layerInfos.push({});
+
+            // 缩放层级显示
+            const zoom = that.view.zoom;
+            if (zoom >= 15) {
+              ["detection_2"].map((_id) => {
                 that.map.findLayerById(_id) &&
                   (that.map.findLayerById(_id).labelsVisible = true);
               });
             } else {
-              ["isolatedPoint", "isolatedPoint_2"].map((_id) => {
+              ["detection_2"].map((_id) => {
                 that.map.findLayerById(_id) &&
                   (that.map.findLayerById(_id).labelsVisible = false);
               });
@@ -688,32 +814,9 @@ export default {
                 label: `${item.name}`.split(" ")[0],
               });
 
-            if (id == "detection") {
-              option.labelingInfo = [
-                {
-                  symbol: {
-                    type: "text",
-                    color: "green",
-                    font: {
-                      size: 12,
-                      weight: "bold",
-                    },
-                  },
-                  labelPlacement: "above-center",
-                  labelExpressionInfo: {
-                    expression: "$feature.Name",
-                  },
-                },
-              ];
-            }
-
             const feature = new _layers_(option);
+            that.map.add(feature, 3);
 
-            if (id == "detection") {
-              that.map.add(feature, 20);
-            } else {
-              that.map.add(feature, 3);
-            }
             // debugger
             if (item.isLegend) {
               that.legend.layerInfos.push({
@@ -722,16 +825,6 @@ export default {
               });
             } else {
               that.legend.layerInfos.push({});
-            }
-
-            // 缩放层级显示
-            const zoom = that.view.zoom;
-            if (zoom >= 16) {
-              that.map.findLayerById("detection") &&
-                (that.map.findLayerById("detection").labelsVisible = true);
-            } else {
-              that.map.findLayerById("detection") &&
-                (that.map.findLayerById("detection").labelsVisible = false);
             }
           }
           resolve(true);

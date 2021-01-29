@@ -21,9 +21,9 @@
       </el-table-column>
       <el-table-column prop="State" label="启用情况" width="140">
       </el-table-column>
-      <el-table-column prop="Contain" label="可容纳人数" width="140">
+      <el-table-column prop="Contain" label="总房间数" width="140">
       </el-table-column>
-      <el-table-column prop="userate" label="已入住人数" width="140">
+      <el-table-column prop="userate" label="已使用房间数" width="140">
       </el-table-column>
     </el-table>
   </div>

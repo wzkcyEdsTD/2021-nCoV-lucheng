@@ -28,10 +28,10 @@ const isolatedPointHash = [{
     label: "启用情况"
 }, {
     fieldName: "Contain",
-    label: "可容纳人数"
+    label: "总房间数"
 }, {
     fieldName: "userate",
-    label: "已入住人数"
+    label: "已使用房间数"
 }]
 
 // 核酸采样点

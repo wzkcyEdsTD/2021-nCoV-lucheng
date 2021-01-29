@@ -33,12 +33,13 @@ export const leftOptions = [{
         id: "isolatedPoint",
         url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/GeiLiDianLuCheng/MapServer",
         sublayers: "0",
-        icon: "隔离点（黄）",
-        icon2: "隔离点（绿）",
+        icon: "隔离点（红）",
+        icon2: "隔离点（黄）",
+        icon3: "隔离点（绿）",
         isLegend: true,
         check: false
     }, {
-        name: `核酸采样点 (390处)`,
+        name: `核酸采样点 (916处)`,
         id: "detection",
         url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/GeiLiDianLuCheng/MapServer",
         sublayers: "1",
