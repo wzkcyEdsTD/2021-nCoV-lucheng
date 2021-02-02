@@ -52,7 +52,7 @@ export default {
       const time = `${this.qgsjList.deadlineTime}`;
       const date = time.split(" ")[0]
       let houre = time.split(" ")[1]
-      console.log(houre)
+      // console.log(houre)
       if(Number(houre) > 22){
         houre = 24
       }

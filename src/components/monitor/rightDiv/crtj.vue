@@ -95,8 +95,6 @@ export default {
         crmj: crmjData
       };
 
-      console.log(this.dataHash)
-
       this.doChart();
     },
     doChart() {

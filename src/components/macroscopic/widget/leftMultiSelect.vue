@@ -171,7 +171,6 @@ export default {
       }
       this.tree = _tree;
       this.$parent.leftOptions = this.tree;
-      console.log(this.$parent.leftOptions);
     },
     clean() {
       const _tree = this.$util.clone(this.tree);

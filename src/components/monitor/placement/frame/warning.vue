@@ -158,7 +158,6 @@ export default {
       e.stopPropagation();
     },
     tableRowClassName({ row, column, rowIndex, columnIndex }) {
-      // console.log("row", row);
       if (columnIndex == 5) {
         if (row.ZT === "即将到达时间节点") {
           return "warning-row";

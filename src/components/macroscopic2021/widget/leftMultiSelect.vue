@@ -44,12 +44,6 @@
                 @click="ShowSamplingDetail(oitem, item)"
                 >详情</span
               >
-              <span
-                id="xq"
-                v-if="oitem.id == 'community'"
-                @click="ShowCommunityDetail(oitem, item)"
-                >详情</span
-              >
             </li>
           </ul>
         </div>
@@ -85,7 +79,7 @@ export default {
     this.items = this.leftformdata;
   },
   mounted() {
-    this.$parent.nationwideShow = this.tree[0].check;
+    this.tree.length && (this.$parent.nationwideShow = this.tree[0].check);
   },
   methods: {
     filterItem(index) {

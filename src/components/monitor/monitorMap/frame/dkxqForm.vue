@@ -381,8 +381,8 @@ export default {
           return item;
         });
 
-        console.log("entry-IdentifyTaskFun");
-        console.log("res", list);
+        // console.log("entry-IdentifyTaskFun");
+        // console.log("res", list);
 
         that.$parent.jumpBlock(list[0]);
       });

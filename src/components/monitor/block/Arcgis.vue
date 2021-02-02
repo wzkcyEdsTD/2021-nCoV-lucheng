@@ -66,7 +66,6 @@ export default {
     },
     dkitem: {
       handler(newV, oldV) {
-        console.log("dkitem", newV);
         if (newV != null) {
           this.goloaction(newV);
         }
@@ -335,8 +334,6 @@ export default {
     // 定位
     goloaction({ id, attributes, geometry, fieldAliases }) {
       const that = this;
-
-      console.log("geo", geometry);
 
       let x = geometry.centroid.x,
         y = geometry.centroid.y;

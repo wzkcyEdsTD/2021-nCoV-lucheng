@@ -1,6 +1,5 @@
 <template>
   <div class="chart1">
-    <!-- <img src="@/components/common/image/rightDiv/chart1.png" /> -->
     <span class="chart-title">鹿城区隔离点人员住宿情况</span>
     <div id="pieChart"></div>
   </div>
@@ -12,9 +11,12 @@ export default {
   data() {
     return {
       pieChart: undefined,
+      chartData: {},
     };
   },
   mounted() {
+    const { accommodation } = window.ncov_chart_2021;
+    this.chartData = accommodation;
     this.initChart();
   },
   methods: {
@@ -26,7 +28,7 @@ export default {
         color: ["#ffd800", "#00ff00", "#00a4ea", "#ff7400"],
         title: [
           {
-            text: "隔离点：44",
+            text: `隔离点：${this.chartData.isolatedPointNum}`,
             top: "40%",
             textAlign: "center",
             left: "39%",
@@ -36,7 +38,7 @@ export default {
             },
           },
           {
-            text: "可容纳人数：4478",
+            text: `可容纳人数：${this.chartData.capacity}`,
             top: "50%",
             textAlign: "center",
             left: "39%",
@@ -61,7 +63,6 @@ export default {
         },
         series: [
           {
-            name: "",
             type: "pie",
             center: ["40%", "50%"],
             radius: ["63%", "79%"],
@@ -82,16 +83,16 @@ export default {
 
             data: [
               {
-                name: "启用隔离点 2",
-                value: 2,
+                name: `启用隔离点 ${this.chartData.enable}`,
+                value: this.chartData.enable,
               },
               {
-                name: "备用隔离点 42",
-                value: 42,
+                name: `备用隔离点 ${this.chartData.standby}`,
+                value: this.chartData.standby,
               },
               {
-                name: "爆满隔离点 0",
-                value: 0,
+                name: `爆满隔离点 ${this.chartData.full}`,
+                value: this.chartData.full,
               },
             ],
           },

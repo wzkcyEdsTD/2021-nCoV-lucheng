@@ -11,7 +11,7 @@
       />
     </div>
     <div class="nationwide" v-if="nationwideShow">
-      <img src="@/components/common/image/load.gif" class="nation-load"  />
+      <img src="@/components/common/image/load.gif" class="nation-load" />
       <topDate />
       <img src="@/components/common/image/全国图例.png" class="legend" />
       <div class="mapSource">地图来源于:http://www.lubulai.com/</div>
@@ -121,7 +121,7 @@ import fgtjForm from "./pop/fgtjForm";
 
 import njqyForm from "./pop/njqyForm";
 
-import { leftOptions } from "./config/enums";
+import { getLeftOptions } from "./config/enums";
 
 import { mapState, mapActions } from "vuex";
 
@@ -132,7 +132,7 @@ export default {
       nationwideShow: false,
       icon_show_left: false,
       icon_show_right: false,
-      leftOptions,
+      leftOptions: [],
       xqShow: false,
       listShow: false,
       xqjckShow: false,
@@ -199,7 +199,10 @@ export default {
     // 南郊企业员工
     njqyForm,
   },
-  created() {},
+  async created() {
+    // console.log(getLeftOptions());
+    this.leftOptions = await getLeftOptions();
+  },
   mounted() {
     !this.crjlList.length && this.fetchcrjlList();
     !this.ryxxList.length && this.fetchryxxList();
@@ -237,7 +240,6 @@ export default {
         $("body .esri-ui-bottom-left").css({ left: "20px" });
       }
     },
-
   },
 };
 </script>

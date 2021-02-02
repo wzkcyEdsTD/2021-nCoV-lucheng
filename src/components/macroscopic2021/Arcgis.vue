@@ -68,7 +68,6 @@ export default {
             item.id && that.doFun(item);
           });
       });
-    this.jQueryBind();
     this.spaceQuery();
     this.polygonQuery();
   },
@@ -230,81 +229,6 @@ export default {
 
           resolve(true);
         });
-      });
-    },
-    jQueryBind() {
-      const context = this;
-      //  密切接触者详情
-      $("body").on("click", ".mj_btn", function () {
-        const val = $(this).attr("data-val");
-        addQZLinkFeature(context, val);
-        mjChartUpdate(context, val);
-        context.$parent.leftHidden();
-        context.$parent.legend();
-      });
-      //  街道疫情分布
-      $("body").on("click", ".cp_btn", function () {
-        const val = $(this).attr("data-val");
-        linkCPFeatures(context, val);
-        context.$parent.leftHidden();
-        context.$parent.legend();
-      });
-      //  国际专题密接
-      $("body").on("click", ".gjmj_btn", function () {
-        const val = $(this).attr("data-val");
-        addQZLinkFeature_gj(context, val);
-        mjChartUpdate_gj(context, val);
-        context.$parent.leftHidden();
-        context.$parent.legend();
-      });
-      //  小区卡口分布
-      $("body").on("click", ".xq_enter_btn", function () {
-        const val = $(this).attr("data-val");
-        linkXQ_ENTERFeatures(context, val);
-        context.$parent.leftHidden();
-        context.$parent.legend();
-      });
-      //  隔离点人员详情
-      $("body").on("click", ".gld_btn", function () {
-        const name = $(this).attr("data-val");
-        const bid = $(this).attr("data-val2");
-        getGLDList(context, name, bid);
-        context.$parent.leftHidden();
-        context.$parent.legend();
-      });
-      //  红码隔离点人员详情
-      $("body").on("click", ".hmgld_btn", function () {
-        const name = $(this).attr("data-val");
-        const bid = $(this).attr("data-val2");
-        // console.log(name, bid);
-        getHMGLDList(context, name, bid);
-        context.$parent.leftHidden();
-        context.$parent.legend();
-      });
-      //  华侨隔离点人员详情
-      $("body").on("click", ".hqgld_btn", function () {
-        const name = $(this).attr("data-val");
-        const bid = $(this).attr("data-val2");
-        // console.log(name, bid);
-        getHQGLDList(context, name, bid);
-        context.$parent.leftHidden();
-        context.$parent.legend();
-      });
-      //  康复隔离点人员详情
-      $("body").on("click", ".kfgld_btn", function () {
-        const name = $(this).attr("data-val");
-        const bid = $(this).attr("data-val2");
-        // console.log(name, bid);
-        getKFGLDList(context, name, bid);
-        context.$parent.leftHidden();
-        context.$parent.legend();
-      });
-      //  三返企业员工
-      $("body").on("click", ".njqy_btn", function () {
-        const val = $(this).attr("data-val");
-        getNJQYList(context, val);
-        context.$parent.leftHidden();
-        context.$parent.legend();
       });
     },
 
@@ -544,79 +468,32 @@ export default {
       const id = _id_.replace(/yt_/g, "");
       const that = this;
       const { url } = item;
-      const shallYT = this.$parent.$refs.leftOptions.tabIndex == 1;
       return new Promise((resolve, reject) => {
         loadModules(
           ["esri/layers/FeatureLayer", "esri/layers/MapImageLayer"],
           OPTION
-        ).then(([FeatureLayer, MapImageLayer]) => {
+        ).then(async ([FeatureLayer, MapImageLayer]) => {
           const option = { url, id: _id_, outFields: "*" };
 
-          if (tipHash[id] && Hash[tipHash[id]]) {
-            const _hash_ = Hash[tipHash[id]];
+          // 获取中文别名字段
+          const _hash_ = await this.fetchArcgisAlias(
+            url + "/" + item.sublayers
+          );
+
+          if (_hash_.length) {
             option.popupTemplate = {
-              content: `${
-                id == "xq"
-                  ? xqDetail(true)
-                  : `<table class="esri-widget__table" summary="属性和值列表"><tbody>
-            ${_hash_
-              .map((k) => {
-                return `<tr>
-                    <th class="esri-feature__field-header">${k.label}</th>
-                    <td class="esri-feature__field-data">{${k.fieldName}}</td>
-                  </tr>`;
-              })
-              .join("")}
-          </tbody></table>`
-              }
-          ${
-            id == "qzbl"
-              ? `<div class="bottomBtn mj_btn" data-val="{Name}">密切接触者分布</div>`
-              : ``
-          }
-          ${
-            id == "qzbl"
-              ? `<div class="bottomBtn mj_btn" data-val="{Name}">密切接触者分布</div>`
-              : ``
-          }
-          ${
-            id == "chanyePlate"
-              ? `<div class="bottomBtn cp_btn" data-val="{名称}">相关信息分布</div>`
-              : ``
-          }
-          ${
-            id == "gld"
-              ? `<div class="bottomBtn gld_btn" data-val="{Name}" data-val2="{Bid}">观察点人员详情</div>`
-              : ``
-          }
-          ${
-            id == "hmgld"
-              ? `<div class="bottomBtn hmgld_btn" data-val="{Name}" data-val2="{Bid}">观察点人员详情</div>`
-              : ``
-          }
-          ${
-            id == "hqgld"
-              ? `<div class="bottomBtn hqgld_btn" data-val="{Name}" data-val2="{Bid}">观察点人员详情</div>`
-              : ``
-          }
-          ${
-            id == "kfgld"
-              ? `<div class="bottomBtn kfgld_btn" data-val="{Name}" data-val2="{Bid}">观察点人员详情</div>`
-              : ``
-          }
-          ${
-            id == "glmd"
-              ? `<div class="bottomBtn gjmj_btn" data-val="{Name}">密切接触者分布</div>`
-              : ``
-          }`,
+              content: `<table class="esri-widget__table" summary="属性和值列表"><tbody>
+                ${_hash_
+                  .map((k) => {
+                    return `<tr>
+                        <th class="esri-feature__field-header">${k.label}</th>
+                        <td class="esri-feature__field-data">{${k.fieldName}}</td>
+                      </tr>`;
+                  })
+                  .join("")}
+              </tbody></table>`,
             };
           }
-
-          // ${
-          //   id == "xq"
-          //     ? `<div class="bottomBtn xq_btn" data-val="{name}">相关信息分布</div>`
-          //     : ``
-          // }
 
           const _layers_ = item.isImg ? MapImageLayer : FeatureLayer;
           if (item.sublayers) {
@@ -913,7 +790,7 @@ export default {
                         : `<p>${item}</p>`;
                     })
                     .join("");
-                  console.log(ra);
+                  // console.log(ra);
                   that.map.findLayerById("community").popupTemplate = {
                     content: ra,
                   };
@@ -1120,6 +997,40 @@ export default {
 
             resolve(true);
           });
+        });
+      });
+    },
+
+    // 获取别名列表
+    fetchArcgisAlias(url) {
+      return new Promise((resolve, reject) => {
+        loadModules(
+          ["esri/tasks/QueryTask", "esri/tasks/support/Query"],
+          OPTION
+        ).then(async ([QueryTask, Query]) => {
+          const queryTask = new QueryTask({
+            url: url,
+          });
+          const query = new Query();
+          query.outFields = ["*"];
+          query.returnGeometry = false;
+          query.where = `1 = 1`;
+          const { fields, features } = await queryTask.execute(query);
+          const reg = new RegExp("[\u4e00-\u9fa5]");
+          let fieldAliases = [];
+
+          fields.map((item) => {
+            if (
+              reg.test(item.alias) &&
+              !~["ID", "OBJECTID"].indexOf(item.name)
+            ) {
+              fieldAliases.push({
+                fieldName: item.name,
+                label: item.alias,
+              });
+            }
+          });
+          resolve(fieldAliases || []);
         });
       });
     },

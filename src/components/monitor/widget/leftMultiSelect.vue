@@ -124,7 +124,6 @@ export default {
       query.returnGeometry = true;
       query.where = `ssqy = '鹿城区'`;
       const { fields, features } = await queryTask.execute(query);
-      console.log(features)
       const fieldAliases = {};
       fields.map((item) => {
         fieldAliases[item.name] = item.alias;

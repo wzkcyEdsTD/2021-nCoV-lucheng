@@ -94,7 +94,7 @@ export default {
   mounted() {
     !this.zdjzList.length && this.fetchzdjzList();
     !this.dkxxList.length && this.fetchdkxxList();
-    console.log("placement");
+    // console.log("placement");
   },
   computed: {
     ...mapState({

@@ -266,8 +266,6 @@ export default {
           return _item[item.field];
         });
 
-        console.log(that.sArr, option.series[0].data);
-
         chart.setOption(option);
       });
     },
