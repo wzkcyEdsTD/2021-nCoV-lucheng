@@ -58,6 +58,7 @@
 
     <communityDetail ref="communityDetail" v-show="communityDetailShow" />
     <samplingDetail ref="samplingDetail" v-show="samplingDetailShow" />
+    <quarantineDetail ref="quarantineDetail" v-show="quarantineDetailShow" />
 
     <queryForm ref="queryForm" :style="{ left: moveLeft + 'px' }" />
     <qzTable
@@ -106,6 +107,7 @@ import sbxq from "./pop/sbxq";
 
 import communityDetail from "./pop/communityDetail";
 import samplingDetail from "./pop/samplingDetail";
+import quarantineDetail from "./pop/quarantineDetail";
 
 import mjChart from "./frame/mjChart";
 import streetFrame from "./frame/streetFrame";
@@ -138,6 +140,7 @@ export default {
       xqjckShow: false,
       communityDetailShow: false,
       samplingDetailShow: false,
+      quarantineDetailShow: false,
       moveLeft: "360",
       moveRight: "500",
     };
@@ -169,6 +172,7 @@ export default {
 
     communityDetail,
     samplingDetail,
+    quarantineDetail,
 
     // 上报详情
     sbxq,

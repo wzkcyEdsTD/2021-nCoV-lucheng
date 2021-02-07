@@ -44,6 +44,12 @@
                 @click="ShowSamplingDetail(oitem, item)"
                 >详情</span
               >
+              <span
+                id="xq"
+                v-if="oitem.id == 'quarantine'"
+                @click="ShowQuarantineDetail(oitem, item)"
+                >详情</span
+              >
             </li>
           </ul>
         </div>
@@ -132,6 +138,10 @@ export default {
     ShowSamplingDetail(oitem, item) {
       this.$parent.samplingDetailShow = true;
       this.$parent.$refs.samplingDetail.getItem(oitem, item.label);
+    },
+    ShowQuarantineDetail(oitem, item) {
+      this.$parent.quarantineDetailShow = true;
+      this.$parent.$refs.quarantineDetail.getItem(oitem, item.label);
     },
     ShowCommunityDetail(oitem, item) {
       this.$parent.communityDetailShow = true;

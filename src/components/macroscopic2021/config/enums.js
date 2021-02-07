@@ -58,9 +58,32 @@ const getDetectionNum = () => {
     });
 }
 
+// 入境隔离人员数量
+const getQuarantine = () => {
+    return new Promise((resolve, reject) => {
+        loadModules(
+            ["esri/tasks/QueryTask", "esri/tasks/support/Query"],
+            OPTION
+        ).then(async ([QueryTask, Query]) => {
+            const queryTask = new QueryTask({
+                url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/rujingshuju/MapServer/0"
+            });
+            const query = new Query();
+            query.outFields = ["*"];
+            query.returnGeometry = true;
+            query.where = `1 = 1`;
+            const {
+                features
+            } = await queryTask.execute(query);
+            resolve(features.length || 0);
+        });
+    });
+}
+
 export const getLeftOptions = async () => {
     const isolatedPointNum = await getIsolatedPointNum();
     const detectionNum = await getDetectionNum();
+    const quarantineNum = await getQuarantine();
 
     return [{
         label: "全国疫情分布",
@@ -88,16 +111,15 @@ export const getLeftOptions = async () => {
             icon: "核酸检测点",
             isLegend: true,
             check: false
-        },  {
-            name: `入境隔离人员`,
+        }, {
+            name: `入境隔离人员 (${quarantineNum}例)`,
             id: "quarantine",
             url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/rujingshuju/MapServer",
             sublayers: "0",
             icon: "入境隔离人员",
             isLegend: true,
             check: false
-        }
-    ]
+        }]
     }, {
         label: "网格管理",
         check: false,
