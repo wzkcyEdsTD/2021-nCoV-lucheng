@@ -114,7 +114,14 @@ export default {
               (this.map.findLayerById(_id_).visible = true);
           });
         }
-
+        // 入境隔离人员
+        if (item.id == "quarantine") {
+          ["quarantine_2"].map((_id_) => {
+            this.map &&
+              this.map.findLayerById(_id_) &&
+              (this.map.findLayerById(_id_).visible = true);
+          });
+        }
         // 缩放层级显示
         const zoom = this.view.zoom;
         if (zoom >= 15) {
@@ -123,6 +130,7 @@ export default {
             "isolatedPoint_2",
             "isolatedPoint_3",
             "detection_2",
+            "quarantine_2",
           ].map((_id) => {
             this.map.findLayerById(_id) &&
               (this.map.findLayerById(_id).labelsVisible = true);
@@ -133,6 +141,7 @@ export default {
             "isolatedPoint_2",
             "isolatedPoint_3",
             "detection_2",
+            "quarantine_2",
           ].map((_id) => {
             this.map.findLayerById(_id) &&
               (this.map.findLayerById(_id).labelsVisible = false);
@@ -155,6 +164,15 @@ export default {
         // 核酸检测点
         if (item.id == "detection") {
           ["detection_2"].map((_id_) => {
+            this.map &&
+              this.map.findLayerById(_id_) &&
+              (this.map.findLayerById(_id_).visible = false);
+          });
+        }
+
+        // 入境隔离人员
+        if (item.id == "quarantine") {
+          ["quarantine_2"].map((_id_) => {
             this.map &&
               this.map.findLayerById(_id_) &&
               (this.map.findLayerById(_id_).visible = false);
@@ -210,6 +228,7 @@ export default {
                 "isolatedPoint_2",
                 "isolatedPoint_3",
                 "detection_2",
+                "quarantine_2"
               ].map((_id) => {
                 that.map.findLayerById(_id) &&
                   (that.map.findLayerById(_id).labelsVisible = true);
@@ -220,6 +239,7 @@ export default {
                 "isolatedPoint_2",
                 "isolatedPoint_3",
                 "detection_2",
+                "quarantine_2",
               ].map((_id) => {
                 that.map.findLayerById(_id) &&
                   (that.map.findLayerById(_id).labelsVisible = false);
@@ -686,15 +706,15 @@ export default {
               layer: feature,
             });
 
-            option.id = "quarantine_1";
-            option.renderer = {
-              type: "simple",
-              symbol: {
-                type: "simple-marker",
-                size: 0,
-                color: "black",
-              },
-            };
+            option.id = "quarantine_2";
+            // option.renderer = {
+            //   type: "simple",
+            //   symbol: {
+            //     type: "simple-marker",
+            //     size: 0,
+            //     color: "black",
+            //   },
+            // };
 
             option.labelingInfo = [
               {
@@ -708,7 +728,7 @@ export default {
                 },
                 labelPlacement: "above-center",
                 labelExpressionInfo: {
-                  expression: "$feature.Name",
+                  expression: "$feature.name",
                 },
               },
             ];
@@ -720,12 +740,12 @@ export default {
             // 缩放层级显示
             const zoom = that.view.zoom;
             if (zoom >= 15) {
-              ["quarantine_1"].map((_id) => {
+              ["quarantine_2"].map((_id) => {
                 that.map.findLayerById(_id) &&
                   (that.map.findLayerById(_id).labelsVisible = true);
               });
             } else {
-              ["quarantine_1"].map((_id) => {
+              ["quarantine_2"].map((_id) => {
                 that.map.findLayerById(_id) &&
                   (that.map.findLayerById(_id).labelsVisible = false);
               });
