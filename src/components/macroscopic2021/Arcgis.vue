@@ -666,6 +666,70 @@ export default {
                   (that.map.findLayerById(_id).labelsVisible = false);
               });
             }
+          }else if(id == "quarantine"){
+            item.icon &&
+              (option.renderer = {
+                type: "simple",
+                symbol: {
+                  type: "picture-marker",
+                  url: require(`../common/image/tuli/${item.icon}.png`),
+                  width: "34px",
+                  height: "53px",
+                },
+                label: `${item.name}`.split(" ")[0],
+              });
+
+            const feature = new _layers_(option);
+            that.map.add(feature, 20);
+            that.legend.layerInfos.push({
+              title: "",
+              layer: feature,
+            });
+
+            option.id = "quarantine_1";
+            option.renderer = {
+              type: "simple",
+              symbol: {
+                type: "simple-marker",
+                size: 0,
+                color: "black",
+              },
+            };
+
+            option.labelingInfo = [
+              {
+                symbol: {
+                  type: "text",
+                  color: "green",
+                  font: {
+                    size: 12,
+                    weight: "bold",
+                  },
+                },
+                labelPlacement: "above-center",
+                labelExpressionInfo: {
+                  expression: "$feature.Name",
+                },
+              },
+            ];
+
+            const feature2 = new _layers_(option);
+            that.map.add(feature2, 20);
+            that.legend.layerInfos.push({});
+
+            // 缩放层级显示
+            const zoom = that.view.zoom;
+            if (zoom >= 15) {
+              ["quarantine_1"].map((_id) => {
+                that.map.findLayerById(_id) &&
+                  (that.map.findLayerById(_id).labelsVisible = true);
+              });
+            } else {
+              ["quarantine_1"].map((_id) => {
+                that.map.findLayerById(_id) &&
+                  (that.map.findLayerById(_id).labelsVisible = false);
+              });
+            }
           } else {
             if (item.definitionExpression) {
               const d = [];
@@ -692,7 +756,7 @@ export default {
               });
 
             const feature = new _layers_(option);
-            that.map.add(feature, 3);
+            that.map.add(feature, 20);
 
             // debugger
             if (item.isLegend) {

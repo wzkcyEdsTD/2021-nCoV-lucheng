@@ -88,7 +88,16 @@ export const getLeftOptions = async () => {
             icon: "核酸检测点",
             isLegend: true,
             check: false
-        }]
+        },  {
+            name: `入境隔离人员`,
+            id: "quarantine",
+            url: "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/rujingshuju/MapServer",
+            sublayers: "0",
+            icon: "入境隔离人员",
+            isLegend: true,
+            check: false
+        }
+    ]
     }, {
         label: "网格管理",
         check: false,
