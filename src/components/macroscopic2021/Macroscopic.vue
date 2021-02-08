@@ -1,7 +1,7 @@
 <template>
   <div class="Com_content Macroscopic">
     <div class="toptab_time" v-show="!nationwideShow">
-      <p>截至日期：2021年1月16日24时</p>
+      <p>截至日期：{{ dataObj }}</p>
     </div>
     <div class="Com_map">
       <commonArcgis
@@ -143,6 +143,7 @@ export default {
       quarantineDetailShow: false,
       moveLeft: "360",
       moveRight: "500",
+      dataObj: "",
     };
   },
   components: {
@@ -208,6 +209,7 @@ export default {
     this.leftOptions = await getLeftOptions();
   },
   mounted() {
+    this.dataObj = window.ncov_chart_2021.topDate;
     !this.crjlList.length && this.fetchcrjlList();
     !this.ryxxList.length && this.fetchryxxList();
     !this.qgsjList.length && this.fetchqgsjList();
