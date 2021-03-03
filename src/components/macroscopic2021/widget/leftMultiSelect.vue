@@ -27,7 +27,13 @@
                 v-model="oitem.check"
                 @change="changeTree(item, index, oitem)"
               />
-              <p>{{ oitem.name }}</p>
+              <p>
+                {{
+                  oitem.unit
+                    ? `${oitem.name} (${totalMap[oitem.id]}${oitem.unit})`
+                    : oitem.name
+                }}
+              </p>
               <ToggleSwitch
                 v-if="oitem.id == 'jjgl' || oitem.id == 'hbhw'"
                 @change="change(oitem.id)"
@@ -61,8 +67,9 @@
 
 <script>
 /* eslint-disable */
+import { loadModules } from "esri-loader";
 import ToggleSwitch from "./Switch";
-import { WRT_config } from "@/components/common/Tmap";
+import { WRT_config, OPTION } from "@/components/common/Tmap";
 import util from "./util";
 const { server } = WRT_config;
 export default {
@@ -76,6 +83,11 @@ export default {
       URL: null,
       check1: false,
       check2: false,
+      totalMap: {
+        isolatedPoint: 0,
+        detection: 0,
+        quarantine: 0,
+      },
     };
   },
   components: { ToggleSwitch },
@@ -84,10 +96,83 @@ export default {
     this.tree = this.leftOptions;
     this.items = this.leftformdata;
   },
-  mounted() {
+  async mounted() {
     this.tree.length && (this.$parent.nationwideShow = this.tree[0].check);
+
+    const isolatedPointNum = await this.getIsolatedPointNum();
+    const detectionNum = await this.getDetectionNum();
+    const quarantineNum = await this.getQuarantine();
+
+    this.totalMap = {
+      isolatedPoint: isolatedPointNum,
+      detection: detectionNum,
+      quarantine: quarantineNum,
+    };
   },
   methods: {
+    // 隔离点数量
+    getIsolatedPointNum() {
+      return new Promise((resolve, reject) => {
+        loadModules(
+          ["esri/tasks/QueryTask", "esri/tasks/support/Query"],
+          OPTION
+        ).then(async ([QueryTask, Query]) => {
+          const queryTask = new QueryTask({
+            url:
+              "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/GeiLiDianLuCheng/MapServer/0",
+          });
+          const query = new Query();
+          query.outFields = ["*"];
+          query.returnGeometry = true;
+          query.where = `1 = 1`;
+          const { features } = await queryTask.execute(query);
+          resolve(features.length || 0);
+        });
+      });
+    },
+
+    // 核酸采样点数量
+    getDetectionNum() {
+      return new Promise((resolve, reject) => {
+        loadModules(
+          ["esri/tasks/QueryTask", "esri/tasks/support/Query"],
+          OPTION
+        ).then(async ([QueryTask, Query]) => {
+          const queryTask = new QueryTask({
+            url:
+              "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/GeiLiDianLuCheng/MapServer/1",
+          });
+          const query = new Query();
+          query.outFields = ["*"];
+          query.returnGeometry = true;
+          query.where = `1 = 1`;
+          const { features } = await queryTask.execute(query);
+          resolve(features.length || 0);
+        });
+      });
+    },
+
+    // 入境隔离人员数量
+    getQuarantine() {
+      return new Promise((resolve, reject) => {
+        loadModules(
+          ["esri/tasks/QueryTask", "esri/tasks/support/Query"],
+          OPTION
+        ).then(async ([QueryTask, Query]) => {
+          const queryTask = new QueryTask({
+            url:
+              "http://172.20.89.7:6082/arcgis/rest/services/NewDataLuChengYiQinag/rujingshuju/MapServer/0",
+          });
+          const query = new Query();
+          query.outFields = ["*"];
+          query.returnGeometry = true;
+          query.where = `1 = 1`;
+          const { features } = await queryTask.execute(query);
+          resolve(features.length || 0);
+        });
+      });
+    },
+
     filterItem(index) {
       // this.$parent.$refs.bqtj.filterItem(0);
     },

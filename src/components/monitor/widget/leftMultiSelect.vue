@@ -423,6 +423,7 @@ export default {
     },
     // 街道做地分布图
     switchChar(label) {
+      console.log(label)
       const name = label.split(" ")[0];
       this.$parent.$refs.monitorArcgis.addBlank(name);
       this.$parent.$refs.topDate.filterItem(name);

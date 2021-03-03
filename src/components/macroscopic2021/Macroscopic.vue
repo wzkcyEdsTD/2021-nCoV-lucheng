@@ -123,7 +123,7 @@ import fgtjForm from "./pop/fgtjForm";
 
 import njqyForm from "./pop/njqyForm";
 
-import { getLeftOptions } from "./config/enums";
+import { leftOptions } from "./config/enums";
 
 import { mapState, mapActions } from "vuex";
 
@@ -134,7 +134,7 @@ export default {
       nationwideShow: false,
       icon_show_left: false,
       icon_show_right: false,
-      leftOptions: [],
+      leftOptions,
       xqShow: false,
       listShow: false,
       xqjckShow: false,
@@ -206,7 +206,7 @@ export default {
   },
   async created() {
     // console.log(getLeftOptions());
-    this.leftOptions = await getLeftOptions();
+    // this.leftOptions = await getLeftOptions();
   },
   mounted() {
     this.dataObj = window.ncov_chart_2021.topDate;
@@ -223,6 +223,7 @@ export default {
   },
   methods: {
     ...mapActions(["fetchcrjlList", "fetchryxxList", "fetchqgsjList"]),
+
     toggle() {
       this.icon_show_left = !this.icon_show_left;
       this.moveLeft = !this.icon_show_left ? "360" : "20";

@@ -61,6 +61,7 @@ export default {
       const that = this;
 
       if (this.zdfaList.length) {
+        console.log(this.zdfaList)
         this.plan_Data = {};
 
         this.zdfaList
@@ -131,6 +132,8 @@ export default {
         const deadlineStamp = new Date(
           new Date().getTime() + 30 * 24 * 60 * 60 * 1000
         ).valueOf();
+
+        console.log(deadlineStamp)
 
         // 当前时间戳
         const nowStamp = new Date().valueOf();
@@ -282,6 +285,8 @@ export default {
 
       this.yjdkList = yjdkSet.map(item => `'${item}'`);
       this.csdkList = csdkSet.map(item => `'${item}'`);
+
+      console.log(this.yjdkList)
     },
 
     // 表格行点击事件

@@ -103,20 +103,23 @@ export default {
         query.outFields = "*";
         query.where = "1=1";
         query.returnGeometry = true;
-        const { fields, features } = await queryTask.execute(query);
-        let fieldAliases = {};
+        const { features } = await queryTask.execute(query);
 
-        fields.map((item) => {
-          fieldAliases[item.name] = item.alias;
-        });
-
-        const list = features.map((item) => {
-          item.fieldAliases = fieldAliases;
-          return item;
+        const list = features.sort((a, b) => {
+          return (
+            this.getNumber(b.attributes.control_start_time) -
+            this.getNumber(a.attributes.control_start_time)
+          );
         });
 
         this.forceData = list;
       });
+    },
+
+    getNumber(date) {
+      if (!date) return 0;
+      const [y, m, d] = ~date.indexOf("-") ? date.split("-") : date.split("/");
+      return Number(y) * 10000 + Number(m) * 100 + Number(d);
     },
   },
 };
